@@ -1,0 +1,701 @@
+<div class="block" bis_skin_checked="1">
+    <div class="dashed-content gwe_texto" bis_skin_checked="1">
+        <link href="https://fonts.googleapis.com" rel="preconnect">
+        <link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect">
+        <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800&amp;family=DM+Sans:wght@400;500;600&amp;display=swap" rel="stylesheet">
+        <style type="text/css">
+        /* ================================================================
+            LANDING LA SUPERPAPELERIA v2.1 - Encapsulado bajo .lsp
+        ================================================================ */
+
+.lsp {
+  --lsp-primary:    #FF6B35;
+  --lsp-secondary:  #F7B801;
+  --lsp-dark:       #1A1A2E;
+  --lsp-light:      #F8F9FA;
+  --lsp-white:      #FFFFFF;
+  --lsp-gray:       #6C757D;
+  --lsp-gray-light: #E9ECEF;
+
+  font-family: 'DM Sans', sans-serif;
+  color: var(--lsp-dark);
+  line-height: 1.6;
+  overflow-x: hidden;
+  background: var(--lsp-white);
+}
+
+.lsp *, .lsp *::before, .lsp *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+.lsp .lsp-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 20px;
+  position: relative;
+  z-index: 1;
+}
+
+.lsp .lsp-hero {
+  background: linear-gradient(135deg, var(--lsp-primary) 0%, var(--lsp-secondary) 100%);
+  padding: 60px 20px 80px;
+  position: relative;
+  overflow: hidden;
+}
+
+.lsp .lsp-hero::before {
+  content: '';
+  position: absolute;
+  top: -50%; right: -10%;
+  width: 600px; height: 600px;
+  background: rgba(255,255,255,.1);
+  border-radius: 50%;
+  animation: lsp-float 20s infinite ease-in-out;
+}
+
+.lsp .lsp-hero::after {
+  content: '';
+  position: absolute;
+  bottom: -30%; left: -5%;
+  width: 400px; height: 400px;
+  background: rgba(255,255,255,.08);
+  border-radius: 50%;
+  animation: lsp-float 15s infinite ease-in-out reverse;
+}
+
+@keyframes lsp-float {
+  0%,100% { transform: translateY(0) scale(1); }
+  50%      { transform: translateY(-30px) scale(1.05); }
+}
+
+.lsp .lsp-hero-content {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 60px;
+  align-items: center;
+  color: var(--lsp-white);
+}
+
+.lsp .lsp-hero-text { text-align: left; }
+
+.lsp .lsp-logo {
+  font-family: 'Outfit', sans-serif;
+  font-size: 26px;
+  font-weight: 800;
+  margin-bottom: 36px;
+  display: inline-block;
+  text-transform: uppercase;
+  letter-spacing: -.5px;
+  color: var(--lsp-white);
+}
+
+.lsp .lsp-h1 {
+  font-family: 'Outfit', sans-serif;
+  font-size: 52px;
+  font-weight: 800;
+  line-height: 1.1;
+  margin-bottom: 18px;
+  text-shadow: 0 2px 20px rgba(0,0,0,.1);
+  animation: lsp-slideDown .8s ease-out;
+  color: var(--lsp-white);
+}
+
+@keyframes lsp-slideDown {
+  from { opacity: 0; transform: translateY(-30px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+.lsp .lsp-hero-subtitle {
+  font-size: 22px;
+  font-weight: 500;
+  margin-bottom: 14px;
+  opacity: .95;
+  animation: lsp-slideDown .8s .2s ease-out backwards;
+}
+
+.lsp .lsp-hero-description {
+  font-size: 17px;
+  opacity: .9;
+  animation: lsp-slideDown .8s .4s ease-out backwards;
+  margin-bottom: 28px;
+  line-height: 1.65;
+}
+
+.lsp .lsp-hero-features {
+  list-style: none;
+  margin-top: 20px;
+}
+
+.lsp .lsp-hero-features li {
+  padding: 9px 0 9px 32px;
+  position: relative;
+  font-size: 16px;
+  opacity: .95;
+}
+
+.lsp .lsp-hero-features li::before {
+  content: '\2713';
+  position: absolute;
+  left: 0;
+  color: var(--lsp-white);
+  font-weight: bold;
+  font-size: 13px;
+  background: rgba(255,255,255,.25);
+  width: 20px; height: 20px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.lsp .lsp-form-card {
+  background: var(--lsp-white);
+  padding: 40px;
+  border-radius: 20px;
+  box-shadow: 0 20px 60px rgba(0,0,0,.3);
+}
+
+.lsp .lsp-form-card-title {
+  font-family: 'Outfit', sans-serif;
+  font-size: 26px;
+  font-weight: 700;
+  color: var(--lsp-dark);
+  margin-bottom: 6px;
+  text-align: center;
+}
+
+.lsp .lsp-form-card-sub {
+  font-size: 14px;
+  color: var(--lsp-gray);
+  margin-bottom: 24px;
+  text-align: center;
+  padding-bottom: 20px;
+  border-bottom: 1px solid var(--lsp-gray-light);
+}
+
+.lsp .lsp-form-card .cn_content label {
+  font-size: 13px !important;
+  font-weight: 600 !important;
+  color: var(--lsp-dark) !important;
+  font-family: 'DM Sans', sans-serif !important;
+}
+
+.lsp .lsp-form-card .cn_content input[type="text"],
+.lsp .lsp-form-card .cn_content input[type="email"],
+.lsp .lsp-form-card .cn_content input[type="tel"],
+.lsp .lsp-form-card .cn_content select,
+.lsp .lsp-form-card .cn_content textarea {
+  border: 2px solid var(--lsp-gray-light) !important;
+  border-radius: 10px !important;
+  font-family: 'DM Sans', sans-serif !important;
+  font-size: 15px !important;
+  color: var(--lsp-dark) !important;
+  padding: 11px 14px !important;
+  transition: border-color .3s, box-shadow .3s !important;
+}
+
+.lsp .lsp-form-card .cn_content input:focus,
+.lsp .lsp-form-card .cn_content select:focus,
+.lsp .lsp-form-card .cn_content textarea:focus {
+  outline: none !important;
+  border-color: var(--lsp-primary) !important;
+  box-shadow: 0 0 0 3px rgba(255,107,53,.1) !important;
+}
+
+.lsp .lsp-form-card .cn_button_submit {
+  padding-left: 0 !important;
+  padding-right: 0 !important;
+}
+
+.lsp .lsp-form-card button[name="submit"],
+.lsp .lsp-form-card .lsp-cn-submit {
+  display: block !important;
+  width: 100% !important;
+  padding: 16px !important;
+  background: linear-gradient(135deg, var(--lsp-primary), var(--lsp-secondary)) !important;
+  background-color: var(--lsp-primary) !important;
+  color: #fff !important;
+  border-width: 0 !important;
+  border-radius: 10px !important;
+  font-family: 'Outfit', sans-serif !important;
+  font-size: 17px !important;
+  font-weight: 700 !important;
+  cursor: pointer !important;
+  transition: transform .3s, box-shadow .3s !important;
+  letter-spacing: .01em !important;
+}
+
+.lsp .lsp-form-card button[name="submit"]:hover,
+.lsp .lsp-form-card .lsp-cn-submit:hover {
+  transform: translateY(-2px) !important;
+  box-shadow: 0 10px 30px rgba(255,107,53,.3) !important;
+}
+
+.lsp .lsp-stats {
+  background: var(--lsp-white);
+  padding: 60px 20px;
+  border-top: 1px solid var(--lsp-gray-light);
+}
+
+.lsp .lsp-stats-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 32px;
+  max-width: 1000px;
+  margin: 0 auto;
+}
+
+.lsp .lsp-stat { text-align: center; }
+
+.lsp .lsp-stat-number {
+  font-family: 'Outfit', sans-serif;
+  font-size: 48px;
+  font-weight: 800;
+  color: var(--lsp-primary);
+  line-height: 1;
+  margin-bottom: 10px;
+  display: block;
+}
+
+.lsp .lsp-stat-label {
+  font-size: 15px;
+  color: var(--lsp-gray);
+  font-weight: 500;
+}
+
+.lsp .lsp-section-title {
+  font-family: 'Outfit', sans-serif;
+  font-size: 42px;
+  font-weight: 700;
+  text-align: center;
+  margin-bottom: 16px;
+  color: var(--lsp-dark);
+}
+
+.lsp .lsp-section-subtitle {
+  text-align: center;
+  font-size: 19px;
+  color: var(--lsp-gray);
+  max-width: 680px;
+  margin: 0 auto 50px;
+  line-height: 1.65;
+}
+
+.lsp .lsp-ejemplos {
+  padding: 80px 20px;
+  background: var(--lsp-light);
+}
+
+.lsp .lsp-ejemplos-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 24px;
+}
+
+.lsp .lsp-ej-card {
+  background: var(--lsp-white);
+  border-radius: 16px;
+  overflow: hidden;
+  box-shadow: 0 5px 20px rgba(0,0,0,.07);
+  transition: transform .4s ease, box-shadow .4s ease;
+}
+
+.lsp .lsp-ej-card:hover {
+  transform: translateY(-8px);
+  box-shadow: 0 16px 40px rgba(0,0,0,.13);
+}
+
+.lsp .lsp-ej-img {
+  position: relative;
+  height: auto;
+  overflow: hidden;
+}
+
+.lsp .lsp-ej-img img {
+  width: 100%; height: 100%;
+  object-fit: contain;
+  transition: transform .4s ease;
+}
+
+.lsp .lsp-ej-card:hover .lsp-ej-img img { transform: scale(1.04); }
+
+.lsp .lsp-ej-badge {
+  position: absolute;
+  bottom: 14px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: rgba(255,107,53,.92);
+  color: white;
+  font-family: 'Outfit', sans-serif;
+  font-size: 13px;
+  font-weight: 700;
+  padding: 7px 16px;
+  border-radius: 20px;
+  white-space: nowrap;
+  border: 2px solid rgba(255,255,255,.5);
+}
+
+.lsp .lsp-ej-body { padding: 20px 22px 24px; }
+
+.lsp .lsp-ej-body h4 {
+  font-family: 'Outfit', sans-serif;
+  font-size: 18px;
+  font-weight: 700;
+  color: var(--lsp-dark);
+  margin-bottom: 6px;
+}
+
+.lsp .lsp-ej-body p {
+  font-size: 14px;
+  color: var(--lsp-gray);
+  line-height: 1.6;
+}
+
+.lsp .lsp-beneficios {
+  padding: 80px 20px;
+  background: var(--lsp-white);
+}
+
+.lsp .lsp-ben-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 28px;
+  margin-top: 50px;
+}
+
+.lsp .lsp-ben-item {
+  display: flex;
+  align-items: flex-start;
+  gap: 20px;
+  padding: 30px;
+  background: var(--lsp-white);
+  border-radius: 16px;
+  box-shadow: 0 3px 12px rgba(0,0,0,.05);
+  transition: all .3s ease;
+}
+
+.lsp .lsp-ben-item:hover {
+  background: linear-gradient(135deg, rgba(255,107,53,.07), rgba(247,184,1,.07));
+  transform: translateX(8px);
+  box-shadow: 0 8px 24px rgba(0,0,0,.08);
+}
+
+.lsp .lsp-ben-icon {
+  width: 48px; height: 48px;
+  border-radius: 12px;
+  background: var(--lsp-light);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  transition: background .3s;
+}
+
+.lsp .lsp-ben-item:hover .lsp-ben-icon {
+  background: rgba(255,107,53,.12);
+}
+
+.lsp .lsp-ben-content h3 {
+  font-family: 'Outfit', sans-serif;
+  font-size: 18px;
+  font-weight: 700;
+  margin-bottom: 8px;
+  color: var(--lsp-dark);
+}
+
+.lsp .lsp-ben-content p {
+  color: var(--lsp-gray);
+  font-size: 14px;
+  line-height: 1.65;
+}
+
+.lsp .lsp-ben-icon .lsp-emoji {
+  font-size: 22px;
+  line-height: 1;
+}
+
+@media (max-width: 968px) {
+  .lsp .lsp-hero-content { grid-template-columns: 1fr; gap: 40px; }
+  .lsp .lsp-hero-text { text-align: center; }
+  .lsp .lsp-h1 { font-size: 40px; }
+  .lsp .lsp-hero-subtitle { font-size: 20px; }
+  .lsp .lsp-section-title { font-size: 32px; }
+  .lsp .lsp-stats-grid { grid-template-columns: repeat(2, 1fr); gap: 24px; }
+}
+
+@media (max-width: 640px) {
+  .lsp .lsp-hero { padding: 40px 20px 60px; }
+  .lsp .lsp-h1 { font-size: 32px; }
+  .lsp .lsp-form-card { padding: 30px 20px; }
+  .lsp .lsp-section-title { font-size: 28px; }
+  .lsp .lsp-beneficios { padding: 60px 20px; }
+  h1.title { margin-top: 15px; font-size: 22px; padding: 0 15px; }
+  .content.col-md-12 { padding: 0; }
+  .lsp .lsp-hero-features li { font-size: 14px; list-style-type: none; text-align: left; }
+  .lsp .lsp-hero { padding: 32px 16px 48px; }
+}
+
+@media (max-width: 420px) {
+  .lsp .lsp-container { padding: 0; }
+  .lsp .lsp-h1 { font-size: 28px; }
+  .lsp .lsp-hero-subtitle { font-size: 17px; }
+  .lsp .lsp-hero-description { font-size: 15px; }
+  .lsp .lsp-form-card { padding: 24px 16px; border-radius: 14px; }
+  .lsp .lsp-form-card-title { font-size: 21px; }
+  .lsp .lsp-form-card .cn_content input,
+  .lsp .lsp-form-card .cn_content select,
+  .lsp .lsp-form-card .cn_content textarea { font-size: 16px !important; }
+  .lsp .lsp-stats { padding: 44px 16px; }
+  .lsp .lsp-stat-number { font-size: 32px; }
+  .lsp .lsp-stat-label { font-size: 13px; }
+  .lsp .lsp-section-title { font-size: 24px; }
+  .lsp .lsp-section-subtitle { font-size: 15px; }
+  .lsp .lsp-ben-grid { grid-template-columns: 1fr; gap: 16px; }
+  .lsp .lsp-ben-item { padding: 20px 16px; gap: 14px; }
+  .lsp .lsp-beneficios { padding: 48px 16px; }
+}
+</style>
+
+        <div bis_skin_checked="1" class="lsp">
+            <!-- HERO -->
+            <section class="lsp-hero">
+                <div bis_skin_checked="1" class="lsp-container">
+                    <div bis_skin_checked="1" class="lsp-hero-content">
+                        <div bis_skin_checked="1" class="lsp-hero-text">
+                            <p class="lsp-h1">Personaliza tus Productos Corporativos</p>
+                            <p class="lsp-hero-subtitle">Dale identidad a tu marca con productos &uacute;nicos</p>
+                            <p class="lsp-hero-description">Transformamos agendas, cuadernos, mochilas, bol&iacute;grafos y m&aacute;s en herramientas de branding que hacen destacar tu empresa. Calidad profesional, entregas r&aacute;pidas y servicio personalizado.</p>
+                            <ul class="lsp-hero-features">
+                                <li>Respuesta en menos de 24 horas</li>
+                                <li>M&aacute;s de 30 a&ntilde;os de experiencia</li>
+                                <li>Precios competitivos sin m&iacute;nimos restrictivos</li>
+                            </ul>
+                        </div>
+
+                        <div bis_skin_checked="1" class="lsp-form-card">
+                            <div bis_skin_checked="1" class="cn_content cn_content_type_inline id-38364c48-33c3-468b-94ad-42b399387a1f" style="display: flex; background-color: rgb(255, 255, 255); border-width: 0px; border-style: solid; border-color: transparent; backdrop-filter: blur(0px) saturate(1) brightness(1) contrast(1);">
+                                <style type="text/css">
+                                    @media (max-width: 768px) {
+                                        .id-38364c48-33c3-468b-94ad-42b399387a1f .cn_cell { width: 100% !important; max-width: 100% !important; }
+                                        .id-38364c48-33c3-468b-94ad-42b399387a1f .cn_block { display: block !important; }
+                                    }
+                                </style>
+                                <form method="POST" style="width: 100%; margin: 0;">
+                                    <div bis_skin_checked="1" class="cn_section id-f37d02b5-9511-4afd-98f0-1ce5893a55d1" style="width: 100%;">
+
+                                        <div bis_skin_checked="1" class="cn_block id-281f4a6d-43e2-463a-8878-432f63e56f05" style="display: flex;">
+                                            <div bis_skin_checked="1" class="cn_cell id-94da39bb-c66e-466c-8d09-a6d4f9e07ee3" style="width: 100%;">
+                                                <div bis_skin_checked="1" class="cn_element cn_html id-05edfda4-a5d8-4a69-a41b-c9877315b854" style="padding-top: 20px;padding-right: 10px;padding-bottom: 20px;padding-left: 10px;">
+                                                    <p class="lsp-form-card-title">Solicita tu presupuesto</p>
+                                                    <p class="lsp-form-card-sub">Sin compromiso &middot; Respuesta garantizada en 24 h</p>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div bis_skin_checked="1" class="cn_block id-3926f523-0931-4ec0-a5ea-fcecd735a4ab" style="display: flex;">
+                                            <div bis_skin_checked="1" class="cn_cell id-d4c335f2-129a-47ea-9871-36ef5860b150" style="width: 50%;">
+                                                <div bis_skin_checked="1" class="cn_element cn_input_text id-58c2ce69-7672-415b-8cfa-e0f6fa79277f" style="padding-top: 16px;padding-right: 15px;padding-bottom: 15px;padding-left: 15px;">
+                                                    <label for="_q7nqpf9sg" style="display: block;width: 100%;text-align: left;padding-top: 0px;padding-right: 0px;padding-bottom: 5px;padding-left: 0px;">Nombre</label>
+                                                    <input id="_q7nqpf9sg" name="Nombre" placeholder="Tu Nombre" style="width: 100%;background-color: rgba(255, 255, 255, 1);color: rgba(50, 50, 50, 1);padding-top: 7px;padding-right: 7px;padding-bottom: 7px;padding-left: 7px;border-top-left-radius: 5px;border-top-right-radius: 5px;border-bottom-left-radius: 5px;border-bottom-right-radius: 5px;border-width: 1px;border-style: solid;border-color: rgba(200, 200, 200, 1);text-align: left" title="" type="text">
+                                                </div>
+                                            </div>
+                                            <div bis_skin_checked="1" class="cn_cell id-8c9d3418-640b-4c02-b613-710ac5af72d2" style="width: 50%;">
+                                                <div bis_skin_checked="1" class="cn_element cn_input_text id-488478e5-b6dd-48d9-93f7-38533cb6d86d" style="padding-top: 16px;padding-right: 15px;padding-bottom: 15px;padding-left: 15px;">
+                                                    <label for="_1qtjerfi9" style="display: block;width: 100%;text-align: left;padding-top: 0px;padding-right: 0px;padding-bottom: 5px;padding-left: 0px;">Empresa</label>
+                                                    <input id="_1qtjerfi9" name="Empresa" placeholder="Empresa" style="width: 100%;background-color: rgba(255, 255, 255, 1);color: rgba(50, 50, 50, 1);padding-top: 7px;padding-right: 7px;padding-bottom: 7px;padding-left: 7px;border-top-left-radius: 5px;border-top-right-radius: 5px;border-bottom-left-radius: 5px;border-bottom-right-radius: 5px;border-width: 1px;border-style: solid;border-color: rgba(200, 200, 200, 1);text-align: left" title="" type="text">
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div bis_skin_checked="1" class="cn_block id-72ee0ed4-18e6-4c07-8bce-fbed08504184" style="display: flex;">
+                                            <div bis_skin_checked="1" class="cn_cell id-9e835e95-2ae1-4fad-b799-f27770aee037" style="width: 50%;">
+                                                <div bis_skin_checked="1" class="cn_element cn_input_email id-94c9627c-69e6-44d3-9d15-9425d53443df" style="padding-top: 15px;padding-right: 15px;padding-bottom: 15px;padding-left: 15px;">
+                                                    <label for="_v88j8lfsu" style="display: block;width: 100%;text-align: left;padding-top: 0px;padding-right: 0px;padding-bottom: 5px;padding-left: 0px;">Email</label>
+                                                    <input data-cn-required="" id="_v88j8lfsu" name="email" placeholder="" style="width: 100%;background-color: rgba(255, 255, 255, 1);color: rgba(50, 50, 50, 1);padding-top: 7px;padding-right: 7px;padding-bottom: 5px;padding-left: 7px;border-top-left-radius: 5px;border-top-right-radius: 5px;border-bottom-left-radius: 5px;border-bottom-right-radius: 5px;border-width: 1px;border-style: solid;border-color: rgba(200, 200, 200, 1);text-align: left" title="" type="email">
+                                                    <div bis_skin_checked="1" data-cn-required-message-for="email">
+                                                        <div bis_skin_checked="1"><span style="color: rgb(255, 0, 0);">Este campo es obligatorio</span></div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div bis_skin_checked="1" class="cn_cell id-e0065030-abbd-4c27-834d-5e2edeee35bd" style="width: 50%;">
+                                                <div bis_skin_checked="1" class="cn_element cn_input_text id-52096816-d66d-49c3-9301-63cb15b82960" style="padding-top: 16px;padding-right: 15px;padding-bottom: 15px;padding-left: 15px;">
+                                                    <label for="_xi56djhrt" style="display: block;width: 100%;text-align: left;padding-top: 0px;padding-right: 0px;padding-bottom: 5px;padding-left: 0px;">Tel&eacute;fono</label>
+                                                    <input id="_xi56djhrt" name="Telefono" placeholder="Tel&eacute;fono" style="width: 100%;background-color: rgba(255, 255, 255, 1);color: rgba(50, 50, 50, 1);padding-top: 7px;padding-right: 7px;padding-bottom: 7px;padding-left: 7px;border-top-left-radius: 5px;border-top-right-radius: 5px;border-bottom-left-radius: 5px;border-bottom-right-radius: 5px;border-width: 1px;border-style: solid;border-color: rgba(200, 200, 200, 1);text-align: left" title="" type="text">
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div bis_skin_checked="1" class="cn_block id-2966d962-fe03-4941-9bda-289e716488d0" style="display: flex;">
+                                            <div bis_skin_checked="1" class="cn_cell id-053def6a-fcfc-4e4e-b605-8e86cbc44edc" style="width: 100%;">
+                                                <div bis_skin_checked="1" class="cn_element cn_select id-4bfb7a34-5515-4a7d-92ca-b339f7945c46" style="padding-top: 15px;padding-right: 15px;padding-bottom: 15px;padding-left: 15px;">
+                                                    <label for="_v5bqfksvw" style="display: block;width: 100%;text-align: left;padding-top: 0px;padding-right: 0px;padding-bottom: 5px;padding-left: 0px;">Selecciona producto</label>
+                                                    <select id="_v5bqfksvw" name="Producto" style="width: 100%;background-color: rgba(255, 255, 255, 1);color: rgba(50, 50, 50, 1);border-width: 1px;border-style: solid;border-color: rgba(200, 200, 200, 1);border-top-left-radius: 5px;border-top-right-radius: 5px;border-bottom-left-radius: 5px;border-bottom-right-radius: 5px;padding-top: 7px;padding-right: 7px;padding-bottom: 7px;padding-left: 7px;">
+                                                        <option disabled="disabled" selected="selected" value="">Selecciona Producto</option>
+                                                        <option value="agendas">Agendas</option>
+                                                        <option value="calendarios">Calendarios</option>
+                                                        <option value="boligrafos">Bol&iacute;grafos</option>
+                                                    </select>
+                                                </div>
+                                                <div bis_skin_checked="1" class="cn_element cn_textarea id-b5a43cfc-0480-469a-8e90-99fbbb6581c4" style="padding-top: 15px;padding-right: 15px;padding-bottom: 15px;padding-left: 15px;">
+                                                    <label for="_xtv1s5yjn" style="display: block;width: 100%;text-align: left;padding-top: 0px;padding-right: 0px;padding-bottom: 5px;padding-left: 0px;">Detalles del producto</label>
+                                                    <textarea id="_xtv1s5yjn" name="Detalles" placeholder="Qu&eacute; necesitas, cantidades aproximadas, fechas de entrega" rows="5" style="width: 100%; resize: none;text-align: left;padding-top: 7px;padding-right: 7px;padding-bottom: 7px;padding-left: 7px;border-top-left-radius: 5px;border-top-right-radius: 5px;border-bottom-left-radius: 5px;border-bottom-right-radius: 5px;border-style: solid;border-color: rgba(200, 200, 200, 1);border-width: 1px;color: rgba(50, 50, 50, 1);background-color: rgba(255, 255, 255, 1);" title=""></textarea>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- STATS -->
+            <section class="lsp-stats">
+                <div class="lsp-container">
+                    <div class="lsp-stats-grid">
+                        <div class="lsp-stat">
+                            <span class="lsp-stat-number">30+</span>
+                            <span class="lsp-stat-label">A&ntilde;os de experiencia</span>
+                        </div>
+                        <div class="lsp-stat">
+                            <span class="lsp-stat-number">5</span>
+                            <span class="lsp-stat-label">Tiendas físicas</span>
+                        </div>
+                        <div class="lsp-stat">
+                            <span class="lsp-stat-number">24h</span>
+                            <span class="lsp-stat-label">Te respondemos</span>
+                        </div>
+                        <div class="lsp-stat">
+                            <span class="lsp-stat-number">100%</span>
+                            <span class="lsp-stat-label">Satisfacci&oacute;n garantizada</span>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- EJEMPLOS -->
+            <section class="lsp-ejemplos">
+                <div class="lsp-container">
+                    <h2 class="lsp-section-title">Tus productos con Tu Marca</h2>
+                    <p class="lsp-section-subtitle">Ejemplos reales de productos personalizados que hemos creado para nuestros clientes</p>
+                    <div class="lsp-ejemplos-grid">
+                        <div class="lsp-ej-card">
+                            <div class="lsp-ej-img"><img alt="Agenda 2026 personalizada" loading="lazy" src="/archivos/1.jpg"><span class="lsp-ej-badge">Agenda 2026</span></div>
+                            <div class="lsp-ej-body">
+                                <h4>Agenda anual con tu marca</h4>
+                                <p>Agenda espiral 2026 con tapa dura personalizada, ideal para regalar a clientes y equipo.</p>
+                            </div>
+                        </div>
+                        <div class="lsp-ej-card">
+                            <div class="lsp-ej-img"><img alt="Mochila ejecutiva personalizada" loading="lazy" src="/archivos/2.jpg"><span class="lsp-ej-badge">Mochila</span></div>
+                            <div class="lsp-ej-body">
+                                <h4>Mochila ejecutiva</h4>
+                                <p>Mochila de alta calidad con logotipo bordado, perfecta para equipos y regalos de empresa.</p>
+                            </div>
+                        </div>
+                        <div class="lsp-ej-card">
+                            <div class="lsp-ej-img"><img alt="Pack escritorio agenda libreta y bol&iacute;grafo personalizados" loading="lazy" src="/archivos/3.jpg"><span class="lsp-ej-badge">Pack Escritorio</span></div>
+                            <div class="lsp-ej-body">
+                                <h4>Pack escritorio completo</h4>
+                                <p>Agenda de piel, libreta y bol&iacute;grafo a juego con tu imagen corporativa, un regalo que impacta.</p>
+                            </div>
+                        </div>
+                        <div class="lsp-ej-card">
+                            <div class="lsp-ej-img"><img alt="Calendario de mesa personalizado" loading="lazy" src="/archivos/4.jpg"><span class="lsp-ej-badge">Calendario</span></div>
+                            <div class="lsp-ej-body">
+                                <h4>Calendario de mesa</h4>
+                                <p>Calendario personalizado con tu logo y datos de contacto, presente en el escritorio de tus clientes todo el a&ntilde;o.</p>
+                            </div>
+                        </div>
+                        <div class="lsp-ej-card">
+                            <div class="lsp-ej-img"><img alt="Bol&iacute;grafo personalizado con logo" loading="lazy" src="/archivos/5.jpg"><span class="lsp-ej-badge">Bol&iacute;grafo</span></div>
+                            <div class="lsp-ej-body">
+                                <h4>Bol&iacute;grafo con tu logo</h4>
+                                <p>Bol&iacute;grafo de dise&ntilde;o elegante con grabado de logotipo, perfecto para eventos y promociones.</p>
+                            </div>
+                        </div>
+                        <div class="lsp-ej-card">
+                            <div class="lsp-ej-img"><img alt="Taza personalizada con logo" loading="lazy" src="/archivos/6.jpg"><span class="lsp-ej-badge">Taza</span></div>
+                            <div class="lsp-ej-body">
+                                <h4>Taza corporativa</h4>
+                                <p>Taza de cer&aacute;mica personalizada con tu logotipo, un regalo &uacute;til y de alto impacto visual.</p>
+                            </div>
+                        </div>
+                        <div class="lsp-ej-card">
+                            <div class="lsp-ej-img"><img alt="Bolsa tote personalizada con logo" loading="lazy" src="/archivos/7.jpg"><span class="lsp-ej-badge">Bolsa</span></div>
+                            <div class="lsp-ej-body">
+                                <h4>Bolsa tote de tela</h4>
+                                <p>Bolsa reutilizable de algod&oacute;n con impresi&oacute;n de logotipo, ideal para ferias, eventos y entregas.</p>
+                            </div>
+                        </div>
+                        <div class="lsp-ej-card">
+                            <div class="lsp-ej-img"><img alt="Libreta tapa dura personalizada" loading="lazy" src="/archivos/8.jpg"><span class="lsp-ej-badge">Libreta</span></div>
+                            <div class="lsp-ej-body">
+                                <h4>Libreta tapa dura premium</h4>
+                                <p>Libreta con cubierta de lino y logotipo grabado, una opci&oacute;n elegante para reuniones y formaciones.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- BENEFICIOS -->
+            <section class="lsp-beneficios">
+                <div class="lsp-container">
+                    <h2 class="lsp-section-title">&iquest;Por qu&eacute; elegir La Superpapeler&iacute;a?</h2>
+                    <p class="lsp-section-subtitle">M&aacute;s de 30 a&ntilde;os de experiencia trabajando con empresas y colegios de toda España</p>
+                    <div class="lsp-ben-grid">
+                        <div class="lsp-ben-item">
+                            <div class="lsp-ben-icon"><span class="lsp-emoji">&#x26A1;</span></div>
+                            <div class="lsp-ben-content">
+                                <h3>Entregas R&aacute;pidas</h3>
+                                <p>Servicio de entrega en 24-48h en la mayor&iacute;a de pedidos. Cumplimos plazos sin sacrificar calidad.</p>
+                            </div>
+                        </div>
+                        <div class="lsp-ben-item">
+                            <div class="lsp-ben-icon"><span class="lsp-emoji">&#x1F3A8;</span></div>
+                            <div class="lsp-ben-content">
+                                <h3>Dise&ntilde;o Personalizado</h3>
+                                <p>Te ayudamos con el dise&ntilde;o de tu logo y arte. Equipo especializado en adaptaci&oacute;n de marca.</p>
+                            </div>
+                        </div>
+                        <div class="lsp-ben-item">
+                            <div class="lsp-ben-icon"><span class="lsp-emoji">&#x1F48E;</span></div>
+                            <div class="lsp-ben-content">
+                                <h3>Calidad Garantizada</h3>
+                                <p>Trabajamos con las mejores marcas y materiales del mercado. Productos duraderos y profesionales.</p>
+                            </div>
+                        </div>
+                        <div class="lsp-ben-item">
+                            <div class="lsp-ben-icon"><span class="lsp-emoji">&#x1F4E6;</span></div>
+                            <div class="lsp-ben-content">
+                                <h3>Sin M&iacute;nimos Restrictivos</h3>
+                                <p>Adaptamos cantidades a tus necesidades. Desde peque&ntilde;os pedidos hasta grandes vol&uacute;menes.</p>
+                            </div>
+                        </div>
+                        <div class="lsp-ben-item">
+                            <div class="lsp-ben-icon"><span class="lsp-emoji">&#x1F4B0;</span></div>
+                            <div class="lsp-ben-content">
+                                <h3>Precios Competitivos</h3>
+                                <p>Mejor relaci&oacute;n calidad-precio del mercado. Descuentos especiales para pedidos recurrentes.</p>
+                            </div>
+                        </div>
+                        <div class="lsp-ben-item">
+                            <div class="lsp-ben-icon"><span class="lsp-emoji">&#x1F91D;</span></div>
+                            <div class="lsp-ben-content">
+                                <h3>Trato Personalizado</h3>
+                                <p>Atenci&oacute;n directa y cercana. Un comercial dedicado para acompa&ntilde;arte en todo el proceso.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+        </div>
+
+    </div>
+</div>

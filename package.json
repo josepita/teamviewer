@@ -1,0 +1,12 @@
+{
+  "name": "landing-editor",
+  "version": "1.0.0",
+  "description": "WYSIWYG editor for HTML landings",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js"
+  },
+  "dependencies": {
+    "express": "^4.18.0"
+  }
+}

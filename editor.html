@@ -1,0 +1,1996 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Teamweaver</title>
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 36 36'%3E%3Crect x='2' y='2' width='32' height='32' rx='6' fill='%230F4C3A'/%3E%3Ctext x='18' y='25' font-family='Arial Black,Arial' font-size='17' font-weight='900' fill='%237ED9A8' text-anchor='middle' letter-spacing='-1.5'%3ETw%3C/text%3E%3C/svg%3E">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.32.3/ace.min.js"></script>
+<style>
+/* ─── Dreamweaver-style chrome (Macromedia / CS3-4 era) ─── */
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+html, body {
+  height: 100%;
+  overflow: hidden;
+  font-family: Tahoma, "Segoe UI", Arial, sans-serif;
+  font-size: 11px;
+  background: #ECECEC;
+  color: #1a1a1a;
+}
+
+button { font-family: inherit; font-size: 11px; }
+input, select { font-family: inherit; font-size: 11px; color: #1a1a1a; }
+
+/* ── INSERT BAR (top) ───────────────────────────────────────── */
+#insertBar {
+  background: linear-gradient(#E8E8E8, #D4D4D4);
+  border-bottom: 1px solid #888;
+  display: flex;
+  flex-direction: column;
+  flex-shrink: 0;
+}
+
+.ib-tabs {
+  display: flex;
+  align-items: center;
+  background: linear-gradient(#C8C8C8, #B8B8B8);
+  border-bottom: 1px solid #888;
+  padding: 0;
+  height: 26px;
+}
+
+/* ── Branding (Teamweaver logo + name) ── */
+.app-brand {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 0 10px 0 7px;
+  height: 26px;
+  background: linear-gradient(#3A3F45, #1B1F23);
+  border-right: 1px solid #555;
+  color: #DDE4D9;
+  user-select: none;
+}
+.app-brand svg { display: block; width: 18px; height: 18px; }
+.app-brand .name {
+  font-family: "Arial Black", "Helvetica Neue", Arial, sans-serif;
+  font-size: 12px;
+  font-weight: 900;
+  letter-spacing: 0.3px;
+  color: #FFFFFF;
+}
+.app-brand .name em {
+  font-style: normal;
+  color: #7ED9A8;
+}
+
+.ib-tab {
+  background: transparent;
+  border: none;
+  border-right: 1px solid #999;
+  padding: 0 14px;
+  height: 22px;
+  font-weight: bold;
+  color: #2a2a2a;
+  cursor: pointer;
+  letter-spacing: 0.2px;
+}
+.ib-tab:hover { background: rgba(255,255,255,0.3); }
+.ib-tab.active {
+  background: linear-gradient(#ECECEC, #DCDCDC);
+  border-bottom: 1px solid #ECECEC;
+  margin-bottom: -1px;
+}
+
+.ib-tools {
+  display: none;
+  align-items: center;
+  height: 30px;
+  padding: 0 6px;
+  gap: 1px;
+}
+.ib-tools.show { display: flex; }
+
+.ib-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  height: 22px;
+  min-width: 28px;
+  padding: 0 6px;
+  background: linear-gradient(#FAFAFA, #E0E0E0);
+  border: 1px solid transparent;
+  border-radius: 2px;
+  color: #222;
+  cursor: pointer;
+  gap: 3px;
+}
+.ib-btn:hover { background: linear-gradient(#FFFFFF, #D8E4F0); border-color: #8DA9C8; }
+.ib-btn:active { background: linear-gradient(#C8D9EC, #B0C4DE); border-color: #6B8AB0; }
+.ib-btn svg { width: 14px; height: 14px; }
+
+.ib-sep { width: 1px; height: 18px; background: #999; margin: 0 4px; }
+.ib-label { font-size: 10px; color: #555; padding: 0 5px; }
+
+/* ── DOCUMENT TOOLBAR ──────────────────────────────────────── */
+#docBar {
+  height: 28px;
+  background: linear-gradient(#E0E0E0, #C8C8C8);
+  border-bottom: 1px solid #888;
+  border-top: 1px solid #FFF;
+  display: flex;
+  align-items: center;
+  padding: 0 6px;
+  gap: 6px;
+  flex-shrink: 0;
+}
+
+#fileSelector {
+  flex: 1;
+  max-width: 280px;
+  height: 20px;
+  border: 1px solid #888;
+  background: #FFF;
+  padding: 0 4px;
+  outline: none;
+}
+
+.db-btn {
+  height: 20px;
+  padding: 0 10px;
+  background: linear-gradient(#FAFAFA, #DCDCDC);
+  border: 1px solid #888;
+  border-radius: 2px;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  color: #1a1a1a;
+}
+.db-btn:hover  { background: linear-gradient(#FFFFFF, #D8E4F0); }
+.db-btn:active { background: linear-gradient(#C8D9EC, #B0C4DE); }
+.db-btn:disabled { opacity: 0.5; cursor: default; }
+
+.db-title-input {
+  height: 20px;
+  width: 180px;
+  border: 1px solid #888;
+  background: #FFF;
+  padding: 0 4px;
+  outline: none;
+}
+
+.spacer { flex: 1; }
+
+.mode-segmented {
+  display: flex;
+  border: 1px solid #888;
+  border-radius: 2px;
+  overflow: hidden;
+  background: #BBB;
+  gap: 1px;
+}
+.mode-seg {
+  background: linear-gradient(#E8E8E8, #C8C8C8);
+  border: none;
+  padding: 0 12px;
+  height: 18px;
+  color: #2a2a2a;
+  cursor: pointer;
+  font-weight: 500;
+}
+.mode-seg:hover  { background: linear-gradient(#FFFFFF, #D8E4F0); }
+.mode-seg.active {
+  background: linear-gradient(#B0C4DE, #8DA9C8);
+  color: #fff;
+  font-weight: bold;
+}
+
+#status {
+  font-size: 10px;
+  color: #555;
+  min-width: 110px;
+  text-align: right;
+}
+#status.ok     { color: #166e2c; font-weight: bold; }
+#status.saving { color: #8c5a00; }
+#status.err    { color: #a33; font-weight: bold; }
+#status.dirty  { color: #8c5a00; }
+
+/* ── MAIN SPLIT AREA ───────────────────────────────────────── */
+#main {
+  display: flex;
+  overflow: hidden;
+  background: #999;
+}
+
+#codePanel {
+  flex: 1;
+  min-width: 150px;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  background: #FFF;
+  border-right: 1px solid #888;
+}
+
+#aceEditor { width: 100%; height: 100%; }
+
+#handle {
+  width: 4px;
+  background: linear-gradient(to right, #B8B8B8, #999, #B8B8B8);
+  cursor: col-resize;
+  flex-shrink: 0;
+  border-left: 1px solid #888;
+  border-right: 1px solid #888;
+}
+#handle:hover, #handle.drag { background: #6B8AB0; }
+
+#previewPanel {
+  flex: 1;
+  min-width: 150px;
+  overflow: hidden;
+  background: #FFF;
+  display: flex;
+  flex-direction: column;
+  position: relative;
+}
+
+#previewFrame { flex: 1; width: 100%; border: none; display: block; }
+
+#previewLoader {
+  position: absolute;
+  top: 6px; right: 8px;
+  font-size: 10px;
+  color: #1a4a8a;
+  background: rgba(255,255,255,0.9);
+  padding: 2px 7px;
+  border: 1px solid #8DA9C8;
+  border-radius: 2px;
+  display: none;
+  pointer-events: none;
+  z-index: 5;
+}
+#previewLoader.show { display: block; }
+
+/* ── STATUS BAR / TAG SELECTOR ─────────────────────────────── */
+#statusBar {
+  height: 30px;
+  background: linear-gradient(#E4E4E4, #C8C8C8);
+  border-top: 1px solid #888;
+  display: flex;
+  align-items: center;
+  padding: 0 6px;
+  gap: 6px;
+  flex-shrink: 0;
+  font-size: 11px;
+  color: #444;
+}
+
+#tagBar {
+  flex: 1;
+  overflow-x: auto;
+  overflow-y: hidden;
+  white-space: nowrap;
+  display: flex;
+  align-items: center;
+  gap: 0;
+  padding: 0 2px;
+  scrollbar-width: thin;
+}
+#tagBar::-webkit-scrollbar { height: 4px; }
+#tagBar::-webkit-scrollbar-thumb { background: #999; }
+
+#tagBar span.seg {
+  display: inline-flex;
+  align-items: center;
+  color: #003D80;
+  cursor: pointer;
+  padding: 3px 9px;
+  height: 22px;
+  border: 1px solid #8A8A8A;
+  border-radius: 3px;
+  background: linear-gradient(#FAFAFA, #DDDDDD);
+  font-family: "Courier New", "Lucida Console", monospace;
+  font-size: 11px;
+  font-weight: bold;
+  letter-spacing: -0.2px;
+  box-shadow: inset 0 1px 0 rgba(255,255,255,.6);
+  margin: 0 1px;
+  user-select: none;
+  transition: background 80ms;
+}
+#tagBar span.seg:hover {
+  background: linear-gradient(#FFFFFF, #D8E4F0);
+  border-color: #6B8AB0;
+  color: #002a5c;
+}
+#tagBar span.seg.active {
+  background: linear-gradient(#A8C0DC, #7898BC);
+  color: #fff;
+  border-color: #4D6A8C;
+  box-shadow: inset 0 1px 2px rgba(0,0,0,.25);
+  text-shadow: 0 -1px 0 rgba(0,0,0,.3);
+}
+#tagBar span.arrow {
+  color: #777;
+  margin: 0 1px;
+  font-size: 12px;
+  font-weight: bold;
+}
+#tagBar .hint {
+  color: #888;
+  font-style: italic;
+  padding: 0 4px;
+  font-family: Tahoma, sans-serif;
+  font-size: 11px;
+}
+
+#docInfo {
+  color: #555;
+  font-size: 10px;
+  padding-left: 8px;
+  border-left: 1px solid #AAA;
+  white-space: nowrap;
+}
+
+/* ── PROPERTIES INSPECTOR ──────────────────────────────────── */
+#propsBar {
+  background: linear-gradient(#ECECEC, #D8D8D8);
+  border-top: 2px solid #888;
+  border-bottom: 1px solid #888;
+  flex-shrink: 0;
+  display: flex;
+  flex-direction: column;
+}
+
+.props-header {
+  height: 18px;
+  background: linear-gradient(#C8C8C8, #B0B0B0);
+  border-bottom: 1px solid #888;
+  display: flex;
+  align-items: center;
+  padding: 0 8px;
+  font-size: 10px;
+  font-weight: bold;
+  color: #1a1a1a;
+  letter-spacing: 0.3px;
+}
+.props-header .props-target {
+  color: #003D80;
+  margin-left: 8px;
+  font-family: "Courier New", monospace;
+  font-weight: normal;
+}
+
+.props-body {
+  padding: 6px 10px;
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  min-height: 56px;
+}
+
+.prop-row {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  flex-wrap: wrap;
+}
+
+.prop-label {
+  color: #2a2a2a;
+  font-weight: bold;
+  min-width: auto;
+  white-space: nowrap;
+}
+
+.prop-input {
+  height: 19px;
+  border: 1px solid #888;
+  background: #FFF;
+  padding: 0 4px;
+  outline: none;
+}
+.prop-input:focus { border-color: #6B8AB0; }
+.prop-input.small  { width: 56px; }
+.prop-input.medium { width: 120px; }
+.prop-input.large  { width: 200px; min-width: 200px; flex: 1; }
+.prop-input.url    { flex: 1; min-width: 200px; }
+
+.prop-select {
+  height: 19px;
+  border: 1px solid #888;
+  background: #FFF;
+  padding: 0 2px;
+  outline: none;
+  cursor: pointer;
+}
+
+.prop-btn {
+  height: 19px;
+  min-width: 22px;
+  padding: 0 5px;
+  background: linear-gradient(#FAFAFA, #DCDCDC);
+  border: 1px solid #888;
+  border-radius: 2px;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+.prop-btn:hover  { background: linear-gradient(#FFFFFF, #D8E4F0); }
+.prop-btn:active,
+.prop-btn.on {
+  background: linear-gradient(#B0C4DE, #8DA9C8);
+  border-color: #6B8AB0;
+}
+.prop-btn b, .prop-btn i, .prop-btn u, .prop-btn s { font-size: 11px; }
+
+.prop-sep { width: 1px; height: 16px; background: #999; margin: 0 4px; }
+
+.prop-color {
+  width: 24px;
+  height: 19px;
+  padding: 0;
+  border: 1px solid #888;
+  cursor: pointer;
+  background: none;
+}
+
+.prop-img-thumb {
+  width: 38px;
+  height: 38px;
+  border: 1px solid #888;
+  background: #FFF center/contain no-repeat;
+  flex-shrink: 0;
+}
+
+.empty-props {
+  color: #888;
+  font-style: italic;
+  padding: 12px 4px;
+}
+
+/* ── MODE LAYOUT ───────────────────────────────────────────── */
+body.mode-code    #handle,
+body.mode-code    #previewPanel { display: none; }
+
+body.mode-design  #codePanel,
+body.mode-design  #handle { display: none; }
+body.mode-design  #previewPanel { flex: 1; }
+
+/* ── EMPTY STATE ───────────────────────────────────────────── */
+#empty {
+  position: absolute;
+  inset: 105px 0 100px 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  color: #999;
+  pointer-events: none;
+  z-index: 1;
+}
+#empty.hide { display: none; }
+#empty svg { width: 56px; height: 56px; opacity: 0.4; }
+#empty p { font-size: 12px; }
+
+/* ── TAB BAR ───────────────────────────────────────────────── */
+#tabBar {
+  display: flex;
+  align-items: flex-end;
+  background: linear-gradient(#C8C8C8, #B8B8B8);
+  border-bottom: 1px solid #888;
+  padding: 3px 4px 0 4px;
+  gap: 1px;
+  flex-shrink: 0;
+  overflow-x: auto;
+  overflow-y: hidden;
+  min-height: 24px;
+  scrollbar-width: thin;
+}
+#tabBar::-webkit-scrollbar { height: 4px; }
+#tabBar::-webkit-scrollbar-thumb { background: #999; }
+
+.tab {
+  display: inline-flex;
+  align-items: center;
+  height: 20px;
+  padding: 0 3px 0 9px;
+  background: linear-gradient(#D8D8D8, #BEBEBE);
+  border: 1px solid #888;
+  border-bottom: none;
+  border-top-left-radius: 3px;
+  border-top-right-radius: 3px;
+  color: #444;
+  cursor: pointer;
+  user-select: none;
+  font-size: 11px;
+  white-space: nowrap;
+  position: relative;
+  margin-top: 2px;
+  max-width: 240px;
+}
+.tab:hover { background: linear-gradient(#E8E8E8, #CECECE); }
+.tab.active {
+  background: linear-gradient(#ECECEC, #DCDCDC);
+  color: #1a1a1a;
+  font-weight: bold;
+  margin-top: 0;
+  height: 22px;
+  z-index: 2;
+}
+.tab .tab-label {
+  max-width: 170px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.tab .tab-dot {
+  width: 7px; height: 7px; border-radius: 50%;
+  background: #b86a00;
+  margin-right: 5px;
+  display: none;
+  flex-shrink: 0;
+}
+.tab.dirty .tab-dot { display: inline-block; }
+.tab.unsaved-new .tab-label::before {
+  content: '＋';
+  color: #166e2c;
+  margin-right: 3px;
+  font-weight: bold;
+}
+.tab .tab-close {
+  margin-left: 6px;
+  width: 14px; height: 14px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  color: #777;
+  border-radius: 2px;
+  font-size: 13px;
+  line-height: 1;
+}
+.tab .tab-close:hover { background: rgba(0,0,0,.15); color: #222; }
+.tab-empty {
+  font-style: italic;
+  color: #666;
+  padding: 0 8px;
+  align-self: center;
+  height: 22px;
+  display: inline-flex;
+  align-items: center;
+  font-size: 11px;
+}
+
+/* ── MODAL ─────────────────────────────────────────────────── */
+.modal-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.35);
+  display: none;
+  align-items: center;
+  justify-content: center;
+  z-index: 100;
+}
+.modal-overlay.show { display: flex; }
+.modal-dialog {
+  background: linear-gradient(#ECECEC, #DCDCDC);
+  border: 1px solid #555;
+  border-radius: 3px;
+  box-shadow: 0 6px 24px rgba(0,0,0,0.3);
+  min-width: 400px;
+  max-width: 520px;
+}
+.modal-header {
+  background: linear-gradient(#5070A0, #304870);
+  color: #fff;
+  padding: 5px 10px;
+  font-weight: bold;
+  font-size: 11px;
+  border-top-left-radius: 2px;
+  border-top-right-radius: 2px;
+  letter-spacing: 0.3px;
+}
+.modal-body {
+  padding: 12px 14px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+.modal-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.modal-label {
+  min-width: 76px;
+  font-weight: bold;
+  color: #2a2a2a;
+}
+.modal-input {
+  flex: 1;
+  height: 22px;
+  border: 1px solid #888;
+  background: #FFF;
+  padding: 0 6px;
+  outline: none;
+  font: inherit;
+  color: #1a1a1a;
+}
+.modal-input:focus { border-color: #6B8AB0; }
+.modal-footer {
+  padding: 8px 12px;
+  border-top: 1px solid #AAA;
+  display: flex;
+  justify-content: flex-end;
+  gap: 6px;
+  background: linear-gradient(#E0E0E0, #C8C8C8);
+}
+.modal-footer .db-btn.primary {
+  background: linear-gradient(#B0C4DE, #8DA9C8);
+  color: #fff;
+  font-weight: bold;
+  border-color: #6B8AB0;
+}
+.modal-footer .db-btn.primary:hover {
+  background: linear-gradient(#C0D4EE, #9DB9D8);
+}
+
+/* ── LAYOUT MEASUREMENTS ───────────────────────────────────── */
+/* All these heights are fixed; #main fills the rest via flex */
+body { display: flex; flex-direction: column; }
+#main { flex: 1; min-height: 100px; }
+</style>
+</head>
+<body class="mode-split">
+
+<!-- INSERT BAR -->
+<div id="insertBar">
+  <div class="ib-tabs">
+    <div class="app-brand" title="Teamweaver — Editor visual de landings HTML">
+      <svg viewBox="0 0 36 36" aria-hidden="true">
+        <defs>
+          <linearGradient id="twGrad" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0%"  stop-color="#1F6B4F"/>
+            <stop offset="100%" stop-color="#0B3A2A"/>
+          </linearGradient>
+        </defs>
+        <rect x="1.5" y="1.5" width="33" height="33" rx="6" fill="url(#twGrad)" stroke="#062017" stroke-width="0.6"/>
+        <!-- subtle highlight -->
+        <rect x="3" y="3" width="30" height="14" rx="4" fill="rgba(255,255,255,0.08)"/>
+        <!-- Tw lettering -->
+        <text x="18" y="25" font-family="Arial Black, Arial, sans-serif"
+              font-size="17" font-weight="900" fill="#7ED9A8"
+              text-anchor="middle" letter-spacing="-1.5">Tw</text>
+      </svg>
+      <span class="name">Team<em>weaver</em></span>
+    </div>
+    <button class="ib-tab active" data-tab="common" onclick="setInsertTab('common')">Común</button>
+    <button class="ib-tab"        data-tab="text"   onclick="setInsertTab('text')">Texto</button>
+    <button class="ib-tab"        data-tab="layout" onclick="setInsertTab('layout')">Diseño</button>
+  </div>
+
+  <!-- Common tools -->
+  <div class="ib-tools show" data-tools="common">
+    <button class="ib-btn" title="Insertar imagen" onclick="insertEl('img')">
+      <svg viewBox="0 0 24 24" fill="none" stroke="#1a4a8a" stroke-width="1.8"><rect x="3" y="4" width="18" height="16" rx="1"/><circle cx="9" cy="10" r="2"/><path d="M21 17l-5-5-9 9"/></svg>
+      Imagen
+    </button>
+    <button class="ib-btn" title="Insertar enlace" onclick="insertEl('a')">
+      <svg viewBox="0 0 24 24" fill="none" stroke="#1a4a8a" stroke-width="1.8"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg>
+      Enlace
+    </button>
+    <button class="ib-btn" title="Enlace de email" onclick="insertEmail()">
+      <svg viewBox="0 0 24 24" fill="none" stroke="#1a4a8a" stroke-width="1.8"><rect x="3" y="5" width="18" height="14" rx="1"/><path d="M3 7l9 6 9-6"/></svg>
+      Email
+    </button>
+    <div class="ib-sep"></div>
+    <button class="ib-btn" title="Tabla" onclick="insertEl('table')">
+      <svg viewBox="0 0 24 24" fill="none" stroke="#1a4a8a" stroke-width="1.8"><rect x="3" y="4" width="18" height="16"/><line x1="3" y1="10" x2="21" y2="10"/><line x1="3" y1="15" x2="21" y2="15"/><line x1="9" y1="4" x2="9" y2="20"/><line x1="15" y1="4" x2="15" y2="20"/></svg>
+      Tabla
+    </button>
+    <button class="ib-btn" title="Insertar Div" onclick="insertEl('div')">
+      <svg viewBox="0 0 24 24" fill="none" stroke="#1a4a8a" stroke-width="1.8"><rect x="3" y="3" width="18" height="18" stroke-dasharray="2 2"/></svg>
+      Div
+    </button>
+    <button class="ib-btn" title="Línea horizontal" onclick="wCmd('insertHorizontalRule')">
+      <svg viewBox="0 0 24 24" stroke="#1a4a8a" stroke-width="2.4"><line x1="3" y1="12" x2="21" y2="12"/></svg>
+      HR
+    </button>
+    <div class="ib-sep"></div>
+    <button class="ib-btn" title="Lista no ordenada" onclick="wCmd('insertUnorderedList')">
+      <svg viewBox="0 0 24 24" fill="none" stroke="#1a4a8a" stroke-width="1.8"><circle cx="5" cy="6"  r="1"/><circle cx="5" cy="12" r="1"/><circle cx="5" cy="18" r="1"/><line x1="9" y1="6" x2="20" y2="6"/><line x1="9" y1="12" x2="20" y2="12"/><line x1="9" y1="18" x2="20" y2="18"/></svg>
+      UL
+    </button>
+    <button class="ib-btn" title="Lista ordenada" onclick="wCmd('insertOrderedList')">OL</button>
+    <div class="ib-sep"></div>
+    <button class="ib-btn" title="Comentario" onclick="insertComment()">&lt;!--&gt;</button>
+  </div>
+
+  <!-- Text tools -->
+  <div class="ib-tools" data-tools="text">
+    <button class="ib-btn" onclick="wCmd('formatBlock','p')">Párrafo</button>
+    <div class="ib-sep"></div>
+    <button class="ib-btn" onclick="wCmd('formatBlock','h1')"><b>H1</b></button>
+    <button class="ib-btn" onclick="wCmd('formatBlock','h2')"><b>H2</b></button>
+    <button class="ib-btn" onclick="wCmd('formatBlock','h3')"><b>H3</b></button>
+    <button class="ib-btn" onclick="wCmd('formatBlock','h4')"><b>H4</b></button>
+    <button class="ib-btn" onclick="wCmd('formatBlock','h5')"><b>H5</b></button>
+    <button class="ib-btn" onclick="wCmd('formatBlock','h6')"><b>H6</b></button>
+    <div class="ib-sep"></div>
+    <button class="ib-btn" onclick="wCmd('bold')"><b>B</b></button>
+    <button class="ib-btn" onclick="wCmd('italic')"><i>I</i></button>
+    <button class="ib-btn" onclick="wCmd('underline')"><u>U</u></button>
+    <button class="ib-btn" onclick="wCmd('strikeThrough')"><s>S</s></button>
+    <div class="ib-sep"></div>
+    <button class="ib-btn" onclick="wCmd('formatBlock','blockquote')">❝ Cita</button>
+    <button class="ib-btn" onclick="wCmd('formatBlock','pre')">Pre</button>
+    <button class="ib-btn" onclick="wCmd('subscript')">x₂</button>
+    <button class="ib-btn" onclick="wCmd('superscript')">x²</button>
+  </div>
+
+  <!-- Layout tools -->
+  <div class="ib-tools" data-tools="layout">
+    <button class="ib-btn" onclick="wCmd('justifyLeft')">⬅ Izq</button>
+    <button class="ib-btn" onclick="wCmd('justifyCenter')">☰ Centro</button>
+    <button class="ib-btn" onclick="wCmd('justifyRight')">➡ Der</button>
+    <button class="ib-btn" onclick="wCmd('justifyFull')">≡ Justif</button>
+    <div class="ib-sep"></div>
+    <button class="ib-btn" onclick="wCmd('indent')">→ Sangría</button>
+    <button class="ib-btn" onclick="wCmd('outdent')">← Sangría</button>
+    <div class="ib-sep"></div>
+    <button class="ib-btn" onclick="insertEl('section')">&lt;section&gt;</button>
+    <button class="ib-btn" onclick="insertEl('article')">&lt;article&gt;</button>
+    <button class="ib-btn" onclick="insertEl('aside')">&lt;aside&gt;</button>
+    <button class="ib-btn" onclick="insertEl('span')">&lt;span&gt;</button>
+  </div>
+</div>
+
+<!-- DOCUMENT TOOLBAR -->
+<div id="docBar">
+  <select id="fileSelector">
+    <option value="">— abrir archivo —</option>
+  </select>
+
+  <button class="db-btn" id="newBtn" onclick="openNewFileModal()" title="Nuevo archivo (Ctrl+Alt+N)">
+    <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+      <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
+      <polyline points="14 2 14 8 20 8"/>
+      <line x1="12" y1="12" x2="12" y2="18"/>
+      <line x1="9" y1="15" x2="15" y2="15"/>
+    </svg>
+    Nuevo
+  </button>
+
+  <button class="db-btn" id="saveBtn" onclick="saveActive()" disabled title="Guardar (Ctrl+S)">
+    <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+      <path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"/>
+      <polyline points="17 21 17 13 7 13 7 21"/>
+    </svg>
+    Guardar
+  </button>
+
+  <span class="spacer"></span>
+
+  <div class="mode-segmented">
+    <button class="mode-seg"        data-mode="code"   onclick="setMode('code')">Código</button>
+    <button class="mode-seg active" data-mode="split"  onclick="setMode('split')">Dividir</button>
+    <button class="mode-seg"        data-mode="design" onclick="setMode('design')">Diseño</button>
+  </div>
+
+  <span class="spacer"></span>
+  <span id="status"></span>
+</div>
+
+<!-- TAB BAR -->
+<div id="tabBar"></div>
+
+<!-- MAIN SPLIT AREA -->
+<div id="main">
+  <div id="codePanel">
+    <div id="aceEditor"></div>
+  </div>
+  <div id="handle"></div>
+  <div id="previewPanel">
+    <iframe id="previewFrame" sandbox="allow-same-origin allow-scripts allow-forms"></iframe>
+    <div id="previewLoader">Actualizando…</div>
+  </div>
+</div>
+
+<!-- STATUS BAR (tag selector) -->
+<div id="statusBar">
+  <span id="tagBar"><span class="hint">Selecciona un elemento del preview para inspeccionarlo</span></span>
+  <span id="docInfo">HTML / UTF-8</span>
+</div>
+
+<!-- PROPERTIES INSPECTOR -->
+<div id="propsBar">
+  <div class="props-header">
+    <span>Propiedades</span>
+    <span class="props-target" id="propsTarget"></span>
+  </div>
+  <div class="props-body" id="propsBody">
+    <div class="empty-props">Selecciona un elemento en el diseño para editar sus propiedades</div>
+  </div>
+</div>
+
+<!-- EMPTY STATE -->
+<div id="empty">
+  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+    <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
+    <polyline points="14 2 14 8 20 8"/>
+  </svg>
+  <p>Selecciona un archivo o pulsa «Nuevo» para empezar</p>
+</div>
+
+<!-- NEW FILE MODAL -->
+<div id="modalOverlay" class="modal-overlay">
+  <div class="modal-dialog">
+    <div class="modal-header">Nuevo archivo</div>
+    <div class="modal-body">
+      <div class="modal-row">
+        <label class="modal-label">Proyecto:</label>
+        <select id="newDir" class="modal-input"></select>
+      </div>
+      <div class="modal-row" id="newDirRow" style="display:none;">
+        <label class="modal-label">Carpeta:</label>
+        <input id="newDirName" class="modal-input" placeholder="mi-landing" autocomplete="off">
+      </div>
+      <div class="modal-row">
+        <label class="modal-label">Archivo:</label>
+        <input id="newFileName" class="modal-input" placeholder="index.html" value="index.html" autocomplete="off">
+      </div>
+      <div class="modal-row">
+        <label class="modal-label">Plantilla:</label>
+        <select id="newTemplate" class="modal-input">
+          <option value="boilerplate">HTML5 básico</option>
+          <option value="blank">Documento vacío</option>
+        </select>
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button class="db-btn" onclick="closeNewFileModal()">Cancelar</button>
+      <button class="db-btn primary" onclick="confirmNewFile()">Crear</button>
+    </div>
+  </div>
+</div>
+
+<script>
+'use strict';
+
+// ─── ACE setup (Dreamweaver-style light theme) ────────────────────────────────
+ace.config.set('basePath', 'https://cdnjs.cloudflare.com/ajax/libs/ace/1.32.3/');
+const AceRange = ace.require('ace/range').Range;
+
+const editor = ace.edit('aceEditor');
+editor.setTheme('ace/theme/chrome');
+editor.setFontSize(12);
+editor.setShowPrintMargin(false);
+editor.setOption('wrap', false);
+editor.setOption('enableBasicAutocompletion', true);
+
+// Empty session shown when there are no tabs open
+const EMPTY_SESSION = ace.createEditSession('', 'ace/mode/html');
+EMPTY_SESSION.setTabSize(2);
+EMPTY_SESSION.setUseSoftTabs(true);
+editor.setSession(EMPTY_SESSION);
+editor.setReadOnly(true);
+
+// Each tab gets its own session; attach change-listener that updates the active tab
+function configureSession(session) {
+  session.setMode('ace/mode/html');
+  session.setTabSize(2);
+  session.setUseSoftTabs(true);
+  session.on('change', () => {
+    if (visualSyncing) return;
+    if (!activeTab || activeTab.session !== session) return;
+    clearSrcMarkers();
+    clearTimeout(previewTimer);
+    previewTimer = setTimeout(updatePreview, 350);
+    markDirty();
+  });
+}
+
+// Make Ace's selection more vivid + custom marker CSS
+(function injectAceStyles() {
+  const css = `
+    #aceEditor .ace_selection {
+      background: rgba(255, 230, 100, 0.55) !important;
+    }
+    .ace-src-line {
+      background: rgba(102, 178, 255, 0.13);
+      position: absolute; left: 0; right: 0;
+    }
+    .ace-src-text {
+      background: rgba(255, 230, 100, 0.5);
+      border-top:    1px solid rgba(220, 160, 0, 0.7);
+      border-bottom: 1px solid rgba(220, 160, 0, 0.7);
+      position: absolute;
+    }
+  `;
+  const s = document.createElement('style');
+  s.textContent = css;
+  document.head.appendChild(s);
+})();
+
+// ─── State ───────────────────────────────────────────────────────────────────
+const tabs = [];             // [{ path, session, dirty, unsavedNew, scrollX, scrollY, srcMarkers }]
+let activeTab    = null;     // reference into `tabs`, or null when none open
+let currentMode  = 'split';
+let previewTimer = null;
+let visualTimer  = null;
+let visualSyncing = false;
+let selectedEl = null;       // ref to currently selected element in the iframe (active tab's preview)
+let _lastFileList = [];      // last response from /api/files (used by the New File modal)
+
+// ─── Source-highlight markers in Ace (per active tab) ────────────────────────
+function clearSrcMarkers() {
+  if (!activeTab) return;
+  activeTab.srcMarkers.forEach(id => activeTab.session.removeMarker(id));
+  activeTab.srcMarkers = [];
+}
+function selectInEditor(startPos, endPos) {
+  if (!activeTab) return;
+  clearSrcMarkers();
+  const range = new AceRange(startPos.row, startPos.column, endPos.row, endPos.column);
+  activeTab.srcMarkers.push(activeTab.session.addMarker(range, 'ace-src-line', 'fullLine', false));
+  activeTab.srcMarkers.push(activeTab.session.addMarker(range, 'ace-src-text', 'text', false));
+  editor.selection.setRange(range);
+  editor.scrollToLine(startPos.row, true, true);
+}
+
+// ─── File API ────────────────────────────────────────────────────────────────
+async function loadFileList() {
+  try {
+    const files = await fetch('/api/files').then(r => r.json());
+    _lastFileList = files;
+    const sel = document.getElementById('fileSelector');
+    sel.innerHTML = '<option value="">— abrir archivo —</option>';
+    const groups = {};
+    for (const f of files) (groups[f.dir] = groups[f.dir] || []).push(f);
+    for (const [dir, items] of Object.entries(groups)) {
+      const g = document.createElement('optgroup');
+      g.label = dir;
+      for (const item of items) {
+        const o = document.createElement('option');
+        o.value = item.path;
+        o.textContent = item.file;
+        g.appendChild(o);
+      }
+      sel.appendChild(g);
+    }
+    // Keep selector synced with active tab
+    if (activeTab && !activeTab.unsavedNew) sel.value = activeTab.path;
+  } catch { setStatus('err', 'Error cargando archivos'); }
+}
+
+async function openFileInTab(path) {
+  if (!path) return;
+  const existing = tabs.find(t => t.path === path);
+  if (existing) { switchToTab(existing); return; }
+  setStatus('saving', 'Cargando…');
+  try {
+    const { content } = await fetch(`/api/file?path=${encodeURIComponent(path)}`).then(r => r.json());
+    const tab = createTab({ path, content });
+    switchToTab(tab);
+    setStatus('ok', 'Listo');
+    setTimeout(() => { if (!activeTab || !activeTab.dirty) setStatus('', ''); }, 1800);
+  } catch { setStatus('err', 'Error al cargar'); }
+}
+
+function markDirty() {
+  if (!activeTab) return;
+  if (!activeTab.dirty) {
+    activeTab.dirty = true;
+    setStatus('dirty', '● Sin guardar');
+    renderTabBar();
+  }
+}
+
+async function saveActive() {
+  if (!activeTab) return;
+  setStatus('saving', 'Guardando…');
+  try {
+    const res = await fetch('/api/file', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ path: activeTab.path, content: activeTab.session.getValue() })
+    });
+    if (!res.ok) throw new Error(await res.text());
+    const wasNew = activeTab.unsavedNew;
+    activeTab.dirty = false;
+    activeTab.unsavedNew = false;
+    renderTabBar();
+    setStatus('ok', 'Guardado ✓');
+    setTimeout(() => setStatus('', ''), 2500);
+    if (wasNew) loadFileList();
+  } catch { setStatus('err', 'Error al guardar'); }
+}
+
+// ─── Marker injection ────────────────────────────────────────────────────────
+// data-src-start = posición del '<' de apertura
+// data-src-end   = posición del '>' que CIERRA EL ELEMENTO COMPLETO
+//   · si tiene cierre </tag> → posición del '>' de </tag>
+//   · si es void o self-close → posición del '>' del propio tag
+// Selección en código: source[srcStart .. srcEnd+1]  →  elemento completo
+const VOID_ELEMENTS = new Set([
+  'area','base','br','col','embed','hr','img','input','link','meta','param',
+  'source','track','wbr'
+]);
+
+function injectPositionMarkers(source) {
+  const out = [];
+  const stack = [];  // [{ tagName, openStart, outIdx }]
+  let i = 0;
+  const n = source.length;
+
+  while (i < n) {
+    if (source[i] === '<' && i + 1 < n) {
+      const next = source[i + 1];
+
+      // Comentario HTML
+      if (source.slice(i, i + 4) === '<!--') {
+        const end = source.indexOf('-->', i + 4);
+        if (end === -1) { out.push(source.slice(i)); break; }
+        out.push(source.slice(i, end + 3)); i = end + 3; continue;
+      }
+      // DOCTYPE / declaración
+      if (next === '!') {
+        const end = source.indexOf('>', i);
+        if (end === -1) { out.push(source.slice(i)); break; }
+        out.push(source.slice(i, end + 1)); i = end + 1; continue;
+      }
+      // Tag de cierre </tag>
+      if (next === '/') {
+        const end = source.indexOf('>', i);
+        if (end === -1) { out.push(source.slice(i)); break; }
+        const closeName = source.slice(i + 2, end).trim().toLowerCase().split(/\s+/)[0];
+
+        // Encuentra el tag de apertura correspondiente en el stack y "parchea"
+        // su data-src-end con la posición del '>' de este cierre
+        while (stack.length > 0) {
+          const top = stack[stack.length - 1];
+          if (top.tagName === closeName) {
+            stack.pop();
+            out[top.outIdx] = ` data-src-start="${top.openStart}" data-src-end="${end}"`;
+            break;
+          }
+          stack.pop();  // cierre implícito (HTML malformado): no parcheamos
+        }
+
+        out.push(source.slice(i, end + 1)); i = end + 1; continue;
+      }
+      // Tag de apertura
+      if (/[a-zA-Z]/.test(next)) {
+        const tagStart = i;
+        let j = i + 1;
+        while (j < n && !/[\s>\/]/.test(source[j])) j++;
+        const tagName = source.slice(i + 1, j).toLowerCase();
+
+        while (j < n && source[j] !== '>') {
+          const c = source[j];
+          if (c === '"' || c === "'") { j++; while (j < n && source[j] !== c) j++; }
+          j++;
+        }
+        if (j >= n) { out.push(source[i]); i++; continue; }
+
+        const tagEnd   = j;
+        const selfClose = source[tagEnd - 1] === '/';
+        const isVoid    = VOID_ELEMENTS.has(tagName);
+        const insertAt  = selfClose ? tagEnd - 1 : tagEnd;
+
+        out.push(source.slice(i, insertAt));
+        const markerIdx = out.length;
+        // Valor inicial: end = opening-tag's '>'. Se reemplaza si hay cierre.
+        out.push(` data-src-start="${tagStart}" data-src-end="${tagEnd}"`);
+        out.push(source.slice(insertAt, tagEnd + 1));
+
+        // Solo apilamos elementos no-void que pueden ser cerrados
+        if (!selfClose && !isVoid) {
+          stack.push({ tagName, openStart: tagStart, outIdx: markerIdx });
+        }
+
+        i = tagEnd + 1;
+
+        // Saltamos el contenido raw de <script>/<style> para no falsear matches
+        if (!selfClose && !isVoid && (tagName === 'script' || tagName === 'style')) {
+          const closeTag = `</${tagName}`;
+          const closeIdx = source.toLowerCase().indexOf(closeTag, i);
+          if (closeIdx !== -1) { out.push(source.slice(i, closeIdx)); i = closeIdx; }
+        }
+        continue;
+      }
+    }
+    out.push(source[i]); i++;
+  }
+  return out.join('');
+}
+
+function charToPos(source, offset) {
+  let row = 0, column = 0;
+  const end = Math.min(offset, source.length);
+  for (let i = 0; i < end; i++) {
+    if (source[i] === '\n') { row++; column = 0; } else { column++; }
+  }
+  return { row, column };
+}
+
+// ─── Refresh markers in iframe DOM in-place (no reload) ──────────────────────
+// Recorre el código fuente NUEVO y el DOM del iframe en paralelo, reasignando
+// data-src-start / data-src-end a cada elemento. Se ejecuta tras un sync
+// para que los markers no queden desfasados (y selecciones rotas).
+function refreshMarkersInPlace(source) {
+  const doc = getFrameDoc();
+  if (!doc) return;
+
+  // Lista de elementos del iframe en orden documento, omitiendo nuestras inyecciones
+  const elements = [];
+  function collect(el) {
+    if (!el || el.nodeType !== 1) return;
+    if (el.id === '__ei__') return;                                  // estilos de interacción
+    if (el.tagName === 'BASE' && el.parentElement && el.parentElement.tagName === 'HEAD') return;
+    elements.push(el);
+    for (const child of el.children) collect(child);
+  }
+  const isFullDoc = /^\s*(<\s*!DOCTYPE|<\s*html)/i.test(source);
+  if (isFullDoc) collect(doc.documentElement);
+  else for (const child of doc.body.children) collect(child);
+
+  // Parser single-pass + walker DOM en paralelo
+  let elIdx = 0;
+  const stack = [];   // [{tagName, openStart, elIdx}]
+  let i = 0; const n = source.length;
+
+  while (i < n) {
+    if (source[i] === '<' && i + 1 < n) {
+      const next = source[i + 1];
+
+      if (source.slice(i, i + 4) === '<!--') {
+        const end = source.indexOf('-->', i + 4);
+        if (end === -1) break;
+        i = end + 3; continue;
+      }
+      if (next === '!') {
+        const end = source.indexOf('>', i);
+        if (end === -1) break;
+        i = end + 1; continue;
+      }
+      if (next === '/') {
+        const end = source.indexOf('>', i);
+        if (end === -1) break;
+        const closeName = source.slice(i + 2, end).trim().toLowerCase().split(/\s+/)[0];
+        while (stack.length > 0) {
+          const top = stack[stack.length - 1];
+          if (top.tagName === closeName) {
+            stack.pop();
+            const el = elements[top.elIdx];
+            if (el) el.setAttribute('data-src-end', String(end));
+            break;
+          }
+          stack.pop();
+        }
+        i = end + 1; continue;
+      }
+      if (/[a-zA-Z]/.test(next)) {
+        const tagStart = i;
+        let j = i + 1;
+        while (j < n && !/[\s>\/]/.test(source[j])) j++;
+        const tagName = source.slice(i + 1, j).toLowerCase();
+        while (j < n && source[j] !== '>') {
+          const c = source[j];
+          if (c === '"' || c === "'") { j++; while (j < n && source[j] !== c) j++; }
+          j++;
+        }
+        if (j >= n) break;
+        const tagEnd   = j;
+        const selfClose = source[tagEnd - 1] === '/';
+        const isVoid    = VOID_ELEMENTS.has(tagName);
+
+        const el = elements[elIdx];
+        if (el && el.tagName && el.tagName.toLowerCase() === tagName) {
+          el.setAttribute('data-src-start', String(tagStart));
+          el.setAttribute('data-src-end',   String(tagEnd));
+          if (!selfClose && !isVoid) {
+            stack.push({ tagName, openStart: tagStart, elIdx });
+          }
+        }
+        // Avanzamos el cursor del DOM independientemente, así si hay un mismatch
+        // puntual no descolocamos el resto
+        elIdx++;
+
+        i = tagEnd + 1;
+        if (!selfClose && !isVoid && (tagName === 'script' || tagName === 'style')) {
+          const closeTag = `</${tagName}`;
+          const closeIdx = source.toLowerCase().indexOf(closeTag, i);
+          if (closeIdx !== -1) i = closeIdx;
+        }
+        continue;
+      }
+    }
+    i++;
+  }
+}
+
+// Fuerza el sync pendiente al instante (p.ej. antes de un click de selección)
+function syncIfPending() {
+  if (visualTimer) {
+    clearTimeout(visualTimer);
+    visualTimer = null;
+    syncVisualToCode(false);
+  }
+}
+
+// ─── Preview building ────────────────────────────────────────────────────────
+const INTERACTION_STYLES = `
+<style id="__ei__">
+  [data-src-start]:hover {
+    outline: 1px dashed rgba(50, 130, 220, .5) !important;
+    outline-offset: 1px;
+  }
+  [data-src-start].--sel {
+    outline: 2px solid #3282dc !important;
+    outline-offset: 1px;
+    background-color: rgba(50, 130, 220, .05) !important;
+  }
+  html[data-src-start], body[data-src-start] {
+    outline: none !important;
+    background-color: unset !important;
+  }
+  body:focus, [contenteditable]:focus { outline: none !important; }
+</style>`;
+
+function buildPreviewHTML(content, filePath) {
+  const dir = (filePath || '').split('/')[0];
+  const base = dir ? `<base href="/files/${dir}/">` : '';
+  const body = injectPositionMarkers(content);
+  const isFullDoc = /^\s*(<\s*!DOCTYPE|<\s*html)/i.test(content);
+  if (isFullDoc) {
+    let r = body;
+    if (/<head/i.test(r)) return r.replace(/(<head[^>]*>)/i, `$1${base}${INTERACTION_STYLES}`);
+    if (/<html/i.test(r)) return r.replace(/(<html[^>]*>)/i, `$1<head>${base}${INTERACTION_STYLES}</head>`);
+    return r;
+  }
+  return `<!DOCTYPE html><html><head>${base}<meta charset="UTF-8">${INTERACTION_STYLES}</head><body>${body}</body></html>`;
+}
+
+// ─── Preview update ──────────────────────────────────────────────────────────
+// opts.useTabScroll: when true (on tab switch), restore the incoming tab's saved
+// scroll instead of capturing the iframe's current position (which still shows
+// the OUTGOING tab).
+function updatePreview(opts) {
+  if (!activeTab || currentMode === 'code') return;
+  const loader = document.getElementById('previewLoader');
+  loader.classList.add('show');
+  const frame = document.getElementById('previewFrame');
+  let sx, sy;
+  if (opts && opts.useTabScroll) {
+    sx = activeTab.scrollX || 0;
+    sy = activeTab.scrollY || 0;
+  } else {
+    try { sx = frame.contentWindow.scrollX; sy = frame.contentWindow.scrollY; }
+    catch { sx = activeTab.scrollX || 0; sy = activeTab.scrollY || 0; }
+    activeTab.scrollX = sx;
+    activeTab.scrollY = sy;
+  }
+  const html = buildPreviewHTML(activeTab.session.getValue(), activeTab.path);
+  const targetTab = activeTab;
+  frame.srcdoc = html;
+  frame.onload = () => {
+    loader.classList.remove('show');
+    if (activeTab !== targetTab) return;  // user switched again before load
+    try { frame.contentWindow.scrollTo(sx, sy); } catch {}
+    setupPreviewInteractions();
+  };
+}
+
+// ─── Preview interactions (edit + click-to-select unified) ───────────────────
+function setupPreviewInteractions() {
+  if (currentMode === 'code') return;
+  const doc = getFrameDoc();
+  if (!doc) return;
+
+  doc.designMode = 'on';
+  doc.removeEventListener('input', onVisualInput);
+  doc.addEventListener('input', onVisualInput);
+
+  // Bloquea navegación de links
+  doc.addEventListener('click', e => {
+    const a = e.target.closest && e.target.closest('a');
+    if (a) e.preventDefault();
+  }, true);
+
+  // Click → seleccionar tag en el código + actualizar Properties Inspector
+  doc.addEventListener('click', e => {
+    // Si hay edits pendientes en el debounce, sincroniza YA: así los markers
+    // están al día y la selección apunta al rango correcto del código
+    syncIfPending();
+
+    let el = e.target;
+    while (el && el !== doc.documentElement) {
+      if (el.dataset && el.dataset.srcStart !== undefined) break;
+      el = el.parentElement;
+    }
+    if (!el || el === doc.documentElement || el === doc.body) return;
+
+    selectElement(el);
+  });
+
+  // Hover → preview-side breadcrumb (sutil)
+  doc.addEventListener('mouseover', e => {
+    let el = e.target;
+    while (el && el !== doc.documentElement) {
+      if (el.dataset && el.dataset.srcStart !== undefined) break;
+      el = el.parentElement;
+    }
+    if (!el || el === doc.documentElement || el === doc.body) return;
+    if (!selectedEl) updateTagBar(el);
+  });
+}
+
+// ─── Select element (unified) ────────────────────────────────────────────────
+function selectElement(el) {
+  if (!el) return;
+  const doc = getFrameDoc();
+  if (!doc) return;
+
+  const srcStart = parseInt(el.dataset.srcStart);
+  const srcEnd   = parseInt(el.dataset.srcEnd);
+  const source   = editor.getValue();
+  const startPos = charToPos(source, srcStart);
+  const endPos   = charToPos(source, srcEnd + 1);
+
+  // Highlight in preview
+  const prev = doc.querySelector('[data-src-start].--sel');
+  if (prev) prev.classList.remove('--sel');
+  el.classList.add('--sel');
+
+  selectedEl = el;
+
+  selectInEditor(startPos, endPos);
+  updateTagBar(el);
+  updatePropsInspector(el);
+}
+
+// ─── Tag selector breadcrumb ─────────────────────────────────────────────────
+function updateTagBar(el) {
+  const bar = document.getElementById('tagBar');
+  const doc = getFrameDoc();
+  if (!doc) return;
+  const chain = [];
+  let cur = el;
+  while (cur && cur.tagName && cur !== doc.documentElement) {
+    chain.unshift(cur);
+    cur = cur.parentElement;
+  }
+  const parts = chain.map(node => {
+    const tag = node.tagName.toLowerCase();
+    const id  = node.id ? `#${node.id}` : '';
+    const cls = (node.className && typeof node.className === 'string')
+                ? '.' + node.className.trim().split(/\s+/).filter(Boolean).slice(0, 2).join('.') : '';
+    const isSel = node === el ? 'active' : '';
+    return `<span class="seg ${isSel}" data-start="${node.dataset.srcStart}" data-end="${node.dataset.srcEnd}">&lt;${tag + id + cls}&gt;</span>`;
+  });
+  bar.innerHTML = parts.join('<span class="arrow">›</span>') || '<span class="hint">Sin selección</span>';
+
+  bar.querySelectorAll('.seg').forEach(seg => {
+    seg.addEventListener('click', () => {
+      const s = parseInt(seg.dataset.start);
+      const e2 = parseInt(seg.dataset.end);
+      // Find the actual element in the preview matching these markers
+      const target = doc.querySelector(`[data-src-start="${s}"][data-src-end="${e2}"]`);
+      if (target) selectElement(target);
+    });
+  });
+}
+
+// ─── PROPERTIES INSPECTOR ────────────────────────────────────────────────────
+function clearPropsInspector() {
+  document.getElementById('propsTarget').textContent = '';
+  document.getElementById('propsBody').innerHTML =
+    '<div class="empty-props">Selecciona un elemento en el diseño para editar sus propiedades</div>';
+  document.getElementById('tagBar').innerHTML =
+    '<span class="hint">Selecciona un elemento del preview para inspeccionarlo</span>';
+}
+
+function updatePropsInspector(el) {
+  const tag = el.tagName.toLowerCase();
+  document.getElementById('propsTarget').textContent =
+    `<${tag}${el.id ? ' #' + el.id : ''}${el.className && typeof el.className === 'string' ? ' .' + el.className.split(/\s+/)[0] : ''}>`;
+
+  if (tag === 'img')                  renderImageProps(el);
+  else if (tag === 'a')               renderLinkProps(el);
+  else if (/^h[1-6]$/.test(tag))      renderHeadingProps(el);
+  else                                 renderGenericProps(el);
+}
+
+function pBtn(label, cmd, val, title) {
+  const arg = val !== undefined ? `, '${val}'` : '';
+  return `<button class="prop-btn" title="${title||cmd}" onclick="wCmd('${cmd}'${arg})">${label}</button>`;
+}
+
+function renderGenericProps(el) {
+  const body = document.getElementById('propsBody');
+  body.innerHTML = `
+    <div class="prop-row">
+      <span class="prop-label">Formato:</span>
+      <select class="prop-select" onchange="wCmd('formatBlock', this.value)">
+        <option value="">—</option>
+        <option value="p">Párrafo</option>
+        <option value="h1">Encabezado 1</option>
+        <option value="h2">Encabezado 2</option>
+        <option value="h3">Encabezado 3</option>
+        <option value="h4">Encabezado 4</option>
+        <option value="h5">Encabezado 5</option>
+        <option value="h6">Encabezado 6</option>
+        <option value="blockquote">Cita</option>
+        <option value="pre">Preformateado</option>
+      </select>
+      ${pBtn('<b>B</b>','bold',undefined,'Negrita')}
+      ${pBtn('<i>I</i>','italic',undefined,'Cursiva')}
+      ${pBtn('<u>U</u>','underline',undefined,'Subrayado')}
+      ${pBtn('<s>S</s>','strikeThrough',undefined,'Tachado')}
+      <div class="prop-sep"></div>
+      ${pBtn('⬅','justifyLeft',undefined,'Alinear izquierda')}
+      ${pBtn('☰','justifyCenter',undefined,'Centrar')}
+      ${pBtn('➡','justifyRight',undefined,'Alinear derecha')}
+      ${pBtn('≡','justifyFull',undefined,'Justificar')}
+      <div class="prop-sep"></div>
+      <span class="prop-label">Color:</span>
+      <input type="color" class="prop-color" oninput="wCmd('foreColor', this.value)" value="#000000">
+      <span class="prop-label">Fondo:</span>
+      <input type="color" class="prop-color" oninput="wCmd('hiliteColor', this.value)" value="#ffff00">
+    </div>
+    <div class="prop-row">
+      <span class="prop-label">ID:</span>
+      <input class="prop-input medium" id="propId" value="${escAttr(el.id || '')}" onchange="setAttrAndSync('id', this.value)">
+      <span class="prop-label">Clase:</span>
+      <input class="prop-input large" id="propClass" value="${escAttr(el.className || '')}" onchange="setAttrAndSync('class', this.value)">
+      <span class="prop-label">Enlace:</span>
+      <input class="prop-input url" id="propLink" placeholder="https://..." onchange="applyLink(this.value)">
+    </div>
+  `;
+}
+
+function renderHeadingProps(el) {
+  renderGenericProps(el);
+  // Pre-select the current heading level
+  const sel = document.querySelector('#propsBody .prop-select');
+  if (sel) sel.value = el.tagName.toLowerCase();
+}
+
+function renderImageProps(el) {
+  const body = document.getElementById('propsBody');
+  const w = el.getAttribute('width')  || el.naturalWidth  || '';
+  const h = el.getAttribute('height') || el.naturalHeight || '';
+  body.innerHTML = `
+    <div class="prop-row">
+      <div class="prop-img-thumb" style="background-image:url('${escAttr(el.src)}')"></div>
+      <div style="display:flex;flex-direction:column;gap:5px;flex:1;">
+        <div class="prop-row">
+          <span class="prop-label">Img:</span>
+          <input class="prop-input url" id="propSrc" value="${escAttr(el.getAttribute('src')||'')}" onchange="setAttrAndSync('src', this.value)">
+          <span class="prop-label">Ancho:</span>
+          <input class="prop-input small" id="propW" value="${w}" onchange="setAttrAndSync('width', this.value)">
+          <span class="prop-label">Alto:</span>
+          <input class="prop-input small" id="propH" value="${h}" onchange="setAttrAndSync('height', this.value)">
+        </div>
+        <div class="prop-row">
+          <span class="prop-label">Alt:</span>
+          <input class="prop-input large" id="propAlt" value="${escAttr(el.getAttribute('alt')||'')}" onchange="setAttrAndSync('alt', this.value)">
+          <span class="prop-label">Título:</span>
+          <input class="prop-input medium" value="${escAttr(el.getAttribute('title')||'')}" onchange="setAttrAndSync('title', this.value)">
+          <span class="prop-label">Enlace:</span>
+          <input class="prop-input url" placeholder="https://..." onchange="applyLink(this.value)">
+        </div>
+      </div>
+    </div>
+  `;
+}
+
+function renderLinkProps(el) {
+  const body = document.getElementById('propsBody');
+  body.innerHTML = `
+    <div class="prop-row">
+      <span class="prop-label">Enlace:</span>
+      <input class="prop-input url" value="${escAttr(el.getAttribute('href')||'')}" onchange="setAttrAndSync('href', this.value)">
+      <span class="prop-label">Destino:</span>
+      <select class="prop-select" onchange="setAttrAndSync('target', this.value)">
+        <option value="">— (mismo)</option>
+        <option value="_blank"  ${el.target==='_blank' ?'selected':''}>_blank</option>
+        <option value="_self"   ${el.target==='_self'  ?'selected':''}>_self</option>
+        <option value="_parent" ${el.target==='_parent'?'selected':''}>_parent</option>
+        <option value="_top"    ${el.target==='_top'   ?'selected':''}>_top</option>
+      </select>
+      <span class="prop-label">Título:</span>
+      <input class="prop-input medium" value="${escAttr(el.getAttribute('title')||'')}" onchange="setAttrAndSync('title', this.value)">
+    </div>
+    <div class="prop-row">
+      <span class="prop-label">Clase:</span>
+      <input class="prop-input large" value="${escAttr(el.className||'')}" onchange="setAttrAndSync('class', this.value)">
+      <span class="prop-label">Rel:</span>
+      <input class="prop-input medium" value="${escAttr(el.getAttribute('rel')||'')}" onchange="setAttrAndSync('rel', this.value)">
+    </div>
+  `;
+}
+
+function escAttr(s) { return String(s ?? '').replace(/"/g,'&quot;').replace(/</g,'&lt;'); }
+
+function setAttrAndSync(attr, value) {
+  if (!selectedEl) return;
+  if (value === '' || value == null) selectedEl.removeAttribute(attr);
+  else selectedEl.setAttribute(attr, value);
+  scheduleSyncToCode();
+}
+
+function applyLink(url) {
+  if (!url || !selectedEl) return;
+  // If selection has text content, wrap it in <a>; otherwise create simple link
+  const doc = getFrameDoc();
+  if (!doc) return;
+  const sel = doc.getSelection();
+  if (sel && sel.rangeCount && !sel.isCollapsed) {
+    wCmd('createLink', url);
+  } else {
+    // Wrap the selected element in <a>
+    const a = doc.createElement('a');
+    a.href = url;
+    selectedEl.parentNode.insertBefore(a, selectedEl);
+    a.appendChild(selectedEl);
+    scheduleSyncToCode();
+  }
+}
+
+// ─── WYSIWYG / Visual editing ────────────────────────────────────────────────
+function onVisualInput() {
+  clearTimeout(visualTimer);
+  visualTimer = setTimeout(() => syncVisualToCode(false), 700);
+  markDirty();
+}
+
+function scheduleSyncToCode() {
+  clearTimeout(visualTimer);
+  visualTimer = setTimeout(() => syncVisualToCode(false), 250);
+  markDirty();
+}
+
+function syncVisualToCode(manual) {
+  if (currentMode === 'code' && !manual) return;
+  const doc = getFrameDoc();
+  if (!doc) return;
+  // Remove preview-only attributes before extracting HTML
+  const clone = doc.cloneNode(true);
+  clone.querySelectorAll('[data-src-start]').forEach(n => {
+    n.removeAttribute('data-src-start');
+    n.removeAttribute('data-src-end');
+    n.classList.remove('--sel');
+    if (n.classList.length === 0) n.removeAttribute('class');
+  });
+  // Strip injected style + base
+  const injStyle = clone.querySelector('#__ei__'); if (injStyle) injStyle.remove();
+  const injBase  = clone.querySelector('base');     if (injBase)  injBase.remove();
+
+  const orig = editor.getValue();
+  const isFullDoc = /^\s*(<\s*!DOCTYPE|<\s*html)/i.test(orig);
+  const bodyHTML = clone.body.innerHTML;
+  const newContent = isFullDoc
+    ? orig.replace(/(<body[^>]*>)([\s\S]*)(<\/body\s*>)/i, `$1${bodyHTML}$3`)
+    : bodyHTML;
+
+  visualSyncing = true;
+  const cur = editor.getCursorPosition();
+  editor.setValue(newContent, -1);
+  try { editor.moveCursorToPosition(cur); } catch {}
+  visualSyncing = false;
+
+  // Limpia highlight viejo (posiciones cambiaron) y refresca markers del iframe
+  clearSrcMarkers();
+  refreshMarkersInPlace(newContent);
+
+  if (manual) {
+    setStatus('ok', 'Sincronizado ✓');
+    setTimeout(() => {
+      if (activeTab && activeTab.dirty) setStatus('dirty', '● Sin guardar');
+      else setStatus('', '');
+    }, 1500);
+  }
+}
+
+function wCmd(cmd, val) {
+  const doc = getFrameDoc();
+  if (!doc) return;
+  doc.execCommand(cmd, false, val || null);
+  onVisualInput();
+}
+
+function getFrameDoc() {
+  try { return document.getElementById('previewFrame').contentDocument; } catch { return null; }
+}
+
+// ─── Insert elements ─────────────────────────────────────────────────────────
+function insertEl(tag) {
+  const doc = getFrameDoc();
+  if (!doc) return;
+  let html = '';
+  switch (tag) {
+    case 'img':     {
+      const src = prompt('URL de la imagen:', '');
+      if (!src) return;
+      html = `<img src="${src}" alt="">`;
+      break;
+    }
+    case 'a': {
+      const url = prompt('URL del enlace:', 'https://');
+      if (!url) return;
+      const txt = prompt('Texto del enlace:', 'enlace') || 'enlace';
+      html = `<a href="${url}">${txt}</a>`;
+      break;
+    }
+    case 'table': {
+      const rows = parseInt(prompt('Filas:', '3'), 10) || 3;
+      const cols = parseInt(prompt('Columnas:', '3'), 10) || 3;
+      let t = '<table border="1" style="border-collapse:collapse;">';
+      for (let r = 0; r < rows; r++) {
+        t += '<tr>';
+        for (let c = 0; c < cols; c++) t += '<td>&nbsp;</td>';
+        t += '</tr>';
+      }
+      html = t + '</table>';
+      break;
+    }
+    case 'div':     html = '<div>Nuevo div</div>'; break;
+    case 'section': html = '<section>Sección</section>'; break;
+    case 'article': html = '<article>Artículo</article>'; break;
+    case 'aside':   html = '<aside>Aside</aside>'; break;
+    case 'span':    html = '<span>span</span>'; break;
+    default: html = `<${tag}></${tag}>`;
+  }
+  doc.execCommand('insertHTML', false, html);
+  onVisualInput();
+}
+
+function insertEmail() {
+  const email = prompt('Correo:', 'tucorreo@ejemplo.com');
+  if (!email) return;
+  const txt = prompt('Texto del enlace:', email) || email;
+  const doc = getFrameDoc();
+  if (!doc) return;
+  doc.execCommand('insertHTML', false, `<a href="mailto:${email}">${txt}</a>`);
+  onVisualInput();
+}
+
+function insertComment() {
+  const text = prompt('Comentario:', '');
+  if (text === null) return;
+  const doc = getFrameDoc();
+  if (!doc) return;
+  doc.execCommand('insertHTML', false, `<!-- ${text} -->`);
+  onVisualInput();
+}
+
+// ─── Mode switching ──────────────────────────────────────────────────────────
+function setMode(mode) {
+  currentMode = mode;
+  document.body.className = `mode-${mode}`;
+  document.querySelectorAll('.mode-seg').forEach(b =>
+    b.classList.toggle('active', b.dataset.mode === mode)
+  );
+  if (mode !== 'code') updatePreview();
+  if (editor) editor.resize();
+}
+
+// ─── Insert bar tabs ─────────────────────────────────────────────────────────
+function setInsertTab(name) {
+  document.querySelectorAll('.ib-tab').forEach(b =>
+    b.classList.toggle('active', b.dataset.tab === name)
+  );
+  document.querySelectorAll('.ib-tools').forEach(t =>
+    t.classList.toggle('show', t.dataset.tools === name)
+  );
+}
+
+// ─── Resize handle ───────────────────────────────────────────────────────────
+const handleEl = document.getElementById('handle');
+const codePanel = document.getElementById('codePanel');
+const previewPanel = document.getElementById('previewPanel');
+let resizing = false, startX = 0, startW = 0;
+
+handleEl.addEventListener('mousedown', e => {
+  resizing = true;
+  startX = e.clientX;
+  startW = codePanel.getBoundingClientRect().width;
+  handleEl.classList.add('drag');
+  document.body.style.cssText += 'cursor:col-resize;user-select:none;';
+  e.preventDefault();
+});
+document.addEventListener('mousemove', e => {
+  if (!resizing) return;
+  const total = document.getElementById('main').offsetWidth;
+  const w = Math.max(200, Math.min(total - 205, startW + e.clientX - startX));
+  codePanel.style.flex = `0 0 ${w}px`;
+  previewPanel.style.flex = '1 1 0';
+  editor.resize();
+});
+document.addEventListener('mouseup', () => {
+  if (!resizing) return;
+  resizing = false;
+  handleEl.classList.remove('drag');
+  document.body.style.cursor = '';
+  document.body.style.userSelect = '';
+  editor.resize();
+});
+
+// ─── Shortcuts ───────────────────────────────────────────────────────────────
+document.addEventListener('keydown', e => {
+  // Ctrl/Cmd + S — save active tab
+  if ((e.ctrlKey || e.metaKey) && !e.shiftKey && !e.altKey && e.key === 's') {
+    e.preventDefault();
+    saveActive();
+    return;
+  }
+  // Ctrl + Alt + N — new file (Ctrl+N is hard-blocked by browsers)
+  if ((e.ctrlKey || e.metaKey) && e.altKey && (e.key === 'n' || e.key === 'N')) {
+    e.preventDefault();
+    openNewFileModal();
+    return;
+  }
+  // Ctrl + Alt + W — close active tab
+  if ((e.ctrlKey || e.metaKey) && e.altKey && (e.key === 'w' || e.key === 'W')) {
+    e.preventDefault();
+    if (activeTab) closeTab(activeTab);
+    return;
+  }
+  // Esc — close modal if open
+  if (e.key === 'Escape' &&
+      document.getElementById('modalOverlay').classList.contains('show')) {
+    closeNewFileModal();
+  }
+});
+
+// ─── File selector ───────────────────────────────────────────────────────────
+document.getElementById('fileSelector').addEventListener('change', e => {
+  const path = e.target.value;
+  if (path) openFileInTab(path);
+});
+
+// ─── Status helper ──────────────────────────────────────────────────────────
+function setStatus(cls, msg) {
+  const el = document.getElementById('status');
+  el.className = cls || '';
+  el.textContent = msg;
+}
+
+// ─── Tab management ─────────────────────────────────────────────────────────
+function createTab({ path, content, dirty = false, unsavedNew = false }) {
+  const session = ace.createEditSession(content, 'ace/mode/html');
+  configureSession(session);
+  const tab = {
+    path,
+    session,
+    dirty,
+    unsavedNew,
+    scrollX: 0,
+    scrollY: 0,
+    srcMarkers: []
+  };
+  tabs.push(tab);
+  return tab;
+}
+
+function switchToTab(tab) {
+  // Save outgoing tab's iframe scroll (iframe currently still shows it)
+  if (activeTab && activeTab !== tab) {
+    try {
+      const fw = document.getElementById('previewFrame').contentWindow;
+      if (fw) {
+        activeTab.scrollX = fw.scrollX;
+        activeTab.scrollY = fw.scrollY;
+      }
+    } catch {}
+  }
+
+  activeTab = tab || null;
+  selectedEl = null;
+
+  if (tab) {
+    editor.setSession(tab.session);
+    editor.setReadOnly(false);
+    document.title = `${tab.path.split('/').pop()}${tab.dirty ? ' •' : ''} — Teamweaver`;
+    document.getElementById('saveBtn').disabled = false;
+    document.getElementById('empty').classList.add('hide');
+    document.getElementById('fileSelector').value = tab.unsavedNew ? '' : tab.path;
+    setStatus(tab.dirty ? 'dirty' : '', tab.dirty ? '● Sin guardar' : '');
+    updatePreview({ useTabScroll: true });
+  } else {
+    editor.setSession(EMPTY_SESSION);
+    editor.setReadOnly(true);
+    document.title = 'Teamweaver';
+    document.getElementById('saveBtn').disabled = true;
+    document.getElementById('empty').classList.remove('hide');
+    document.getElementById('fileSelector').value = '';
+    try { document.getElementById('previewFrame').srcdoc = '<html><body></body></html>'; } catch {}
+    setStatus('', '');
+  }
+
+  clearPropsInspector();
+  renderTabBar();
+}
+
+function closeTab(tab) {
+  if (tab.dirty && !confirm(`«${tab.path}» tiene cambios sin guardar. ¿Cerrarlo de todos modos?`)) return;
+  const idx = tabs.indexOf(tab);
+  if (idx === -1) return;
+  tabs.splice(idx, 1);
+  if (activeTab === tab) {
+    const next = tabs[idx] || tabs[idx - 1] || null;
+    switchToTab(next);
+  } else {
+    renderTabBar();
+  }
+}
+
+function renderTabBar() {
+  const bar = document.getElementById('tabBar');
+  if (tabs.length === 0) {
+    bar.innerHTML = '<span class="tab-empty">Sin archivos abiertos · pulsa «Nuevo» o abre uno del selector</span>';
+    return;
+  }
+  bar.innerHTML = tabs.map((t, i) => {
+    const name = t.path.split('/').pop();
+    const isActive = t === activeTab;
+    const cls = ['tab'];
+    if (isActive) cls.push('active');
+    if (t.dirty) cls.push('dirty');
+    if (t.unsavedNew) cls.push('unsaved-new');
+    const titleAttr = escAttr(t.path) + (t.unsavedNew ? ' (sin guardar)' : '');
+    return `<div class="${cls.join(' ')}" data-idx="${i}" title="${titleAttr}">
+              <span class="tab-dot"></span>
+              <span class="tab-label">${escAttr(name)}</span>
+              <span class="tab-close" data-close="${i}" title="Cerrar">×</span>
+            </div>`;
+  }).join('');
+
+  bar.querySelectorAll('.tab').forEach(node => {
+    node.addEventListener('click', e => {
+      const closeEl = e.target.closest('.tab-close');
+      if (closeEl) {
+        e.stopPropagation();
+        closeTab(tabs[parseInt(closeEl.dataset.close)]);
+      } else {
+        switchToTab(tabs[parseInt(node.dataset.idx)]);
+      }
+    });
+    // Middle-click closes
+    node.addEventListener('mousedown', e => {
+      if (e.button === 1) {
+        e.preventDefault();
+        closeTab(tabs[parseInt(node.dataset.idx)]);
+      }
+    });
+  });
+}
+
+// ─── New file modal ─────────────────────────────────────────────────────────
+function openNewFileModal() {
+  const dirs = [...new Set(_lastFileList.map(f => f.dir))].sort();
+  const dirSel = document.getElementById('newDir');
+  dirSel.innerHTML =
+    '<option value="">— elegir —</option>' +
+    dirs.map(d => `<option value="${escAttr(d)}">${escAttr(d)}</option>`).join('') +
+    '<option value="__new__">+ Nuevo proyecto…</option>';
+  // Default to the active tab's project if any
+  if (activeTab && activeTab.path && activeTab.path.includes('/')) {
+    const curDir = activeTab.path.split('/')[0];
+    if (dirs.includes(curDir)) dirSel.value = curDir;
+  } else if (dirs.length === 1) {
+    dirSel.value = dirs[0];
+  }
+  document.getElementById('newDirRow').style.display =
+    dirSel.value === '__new__' ? 'flex' : 'none';
+  document.getElementById('newDirName').value = '';
+  document.getElementById('newFileName').value = 'index.html';
+  document.getElementById('newTemplate').value = 'boilerplate';
+  document.getElementById('modalOverlay').classList.add('show');
+  setTimeout(() => {
+    if (dirSel.value && dirSel.value !== '__new__') {
+      document.getElementById('newFileName').focus();
+      document.getElementById('newFileName').select();
+    } else {
+      dirSel.focus();
+    }
+  }, 0);
+}
+
+function closeNewFileModal() {
+  document.getElementById('modalOverlay').classList.remove('show');
+}
+
+function confirmNewFile() {
+  const dirSelVal = document.getElementById('newDir').value;
+  const newDir = document.getElementById('newDirName').value.trim();
+  const filename = document.getElementById('newFileName').value.trim();
+  const template = document.getElementById('newTemplate').value;
+
+  let dir;
+  if (dirSelVal === '__new__') {
+    if (!newDir) { alert('Indica el nombre de la nueva carpeta'); return; }
+    if (!/^[A-Za-z0-9._-]+$/.test(newDir)) {
+      alert('Nombre de carpeta inválido (sólo letras, números, ., _ y -)');
+      return;
+    }
+    dir = newDir;
+  } else if (dirSelVal) {
+    dir = dirSelVal;
+  } else {
+    alert('Elige un proyecto');
+    return;
+  }
+
+  if (!filename || !/^[A-Za-z0-9._-]+\.html?$/i.test(filename)) {
+    alert('Nombre de archivo inválido. Debe terminar en .html o .htm');
+    return;
+  }
+
+  const path = `${dir}/${filename}`;
+  const existingTab = tabs.find(t => t.path === path);
+  if (existingTab) {
+    closeNewFileModal();
+    switchToTab(existingTab);
+    return;
+  }
+  const existsOnDisk = _lastFileList.some(f => f.path === path);
+  if (existsOnDisk) {
+    if (!confirm(`«${path}» ya existe en disco. ¿Abrirlo en lugar de crear uno nuevo?`)) return;
+    closeNewFileModal();
+    openFileInTab(path);
+    return;
+  }
+
+  const content = template === 'boilerplate' ? boilerplateHTML(filename) : '';
+  const tab = createTab({ path, content, dirty: true, unsavedNew: true });
+  closeNewFileModal();
+  switchToTab(tab);
+}
+
+function boilerplateHTML(filename) {
+  const title = filename.replace(/\.html?$/i, '');
+  return `<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>${title}</title>
+</head>
+<body>
+  <h1>${title}</h1>
+  <p>Nuevo documento.</p>
+</body>
+</html>
+`;
+}
+
+// Reveal "Nuevo proyecto" input when the user chooses that option
+document.getElementById('newDir').addEventListener('change', e => {
+  const isNew = e.target.value === '__new__';
+  document.getElementById('newDirRow').style.display = isNew ? 'flex' : 'none';
+  if (isNew) setTimeout(() => document.getElementById('newDirName').focus(), 0);
+});
+
+// Enter inside the modal triggers Crear
+document.getElementById('modalOverlay').addEventListener('keydown', e => {
+  if (e.key === 'Enter' && e.target.tagName !== 'BUTTON') {
+    e.preventDefault();
+    confirmNewFile();
+  }
+});
+
+// ─── Init ───────────────────────────────────────────────────────────────────
+renderTabBar();
+loadFileList();
+</script>
+</body>
+</html>

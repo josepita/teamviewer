@@ -8,23 +8,24 @@ Todo el cliente vive en un único archivo `editor.html` (~1.500 líneas, sin bui
 
 ## Instalación en WSL (una sola línea)
 
-Abre **Ubuntu** en WSL y pega esto:
+Abre **Ubuntu** en WSL, `cd` a la carpeta donde quieras tenerlo, y pega esto:
 
 ```bash
+cd ~/donde-tu-quieras    # opcional: si no, se instala en tu home
 curl -fsSL https://raw.githubusercontent.com/josepita/teamviewer/main/install.sh | bash
 ```
 
 El script:
 
 1. Instala `git`, `curl` y Node.js LTS si faltan (pedirá tu contraseña de WSL una vez).
-2. Clona el repo en `~/landings`.
+2. Clona el repo en `./teamviewer/` (dentro de la carpeta donde ejecutes el curl).
 3. Hace `npm install`.
 4. Arranca el editor en `http://localhost:3333` y abre el navegador de Windows.
 
 Para volver a arrancarlo otro día:
 
 ```bash
-cd ~/landings && ./start-editor.sh
+cd teamviewer && ./start-editor.sh
 ```
 
 Para parar el servidor: **Ctrl+C** en la ventana de WSL.

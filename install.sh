@@ -6,14 +6,15 @@
 # Qué hace:
 #  1. Comprueba que estamos en Linux/WSL con apt.
 #  2. Instala git y Node.js LTS si faltan.
-#  3. Clona el repo en ~/landings (o hace pull si ya existe).
+#  3. Clona el repo en ./teamviewer (dentro de la carpeta donde ejecutes el curl).
+#     Si ya existe, hace git pull en vez de reclonar.
 #  4. npm install.
 #  5. Arranca el servidor y abre el navegador en http://localhost:3333.
 
 set -euo pipefail
 
 REPO_URL="https://github.com/josepita/teamviewer.git"
-TARGET_DIR="$HOME/landings"
+TARGET_DIR="${PWD}/teamviewer"
 PORT="${PORT:-3333}"
 
 say() { printf "\n\033[1;36m▸ %s\033[0m\n" "$*"; }
@@ -71,7 +72,7 @@ ok "Dependencias listas."
 
 # 5. Arrancar y abrir el navegador
 say "Arrancando el editor en http://localhost:$PORT"
-echo "    (Para parar: Ctrl+C. Para volver a arrancar: cd ~/landings && ./start-editor.sh)"
+echo "    (Para parar: Ctrl+C. Para volver a arrancar: cd $TARGET_DIR && ./start-editor.sh)"
 echo
 
 # Abrir el navegador de Windows tras un breve delay (en segundo plano)

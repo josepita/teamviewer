@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 # Instalador para Teamweaver (editor de landings).
 # Uso (una sola línea en WSL Ubuntu):
-#   curl -fsSL https://raw.githubusercontent.com/REPLACE_USER/REPLACE_REPO/main/install.sh | bash
+#   curl -fsSL https://raw.githubusercontent.com/josepita/teamviewer/main/install.sh | bash
 #
 # Qué hace:
 #  1. Comprueba que estamos en Linux/WSL con apt.
@@ -12,7 +12,7 @@
 
 set -euo pipefail
 
-REPO_URL="https://github.com/REPLACE_USER/REPLACE_REPO.git"
+REPO_URL="https://github.com/josepita/teamviewer.git"
 TARGET_DIR="$HOME/landings"
 PORT="${PORT:-3333}"
 

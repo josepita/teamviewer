@@ -11,7 +11,7 @@ Todo el cliente vive en un único archivo `editor.html` (~1.500 líneas, sin bui
 Abre **Ubuntu** en WSL y pega esto:
 
 ```bash
-curl -fsSL https://raw.githubusercontent.com/REPLACE_USER/REPLACE_REPO/main/install.sh | bash
+curl -fsSL https://raw.githubusercontent.com/josepita/teamviewer/main/install.sh | bash
 ```
 
 El script:

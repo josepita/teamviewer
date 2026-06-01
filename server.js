@@ -8,6 +8,9 @@ const ROOT = path.resolve(__dirname);
 
 app.use(express.json({ limit: '10mb' }));
 
+// Healthcheck (Coolify)
+app.get('/health', (req, res) => res.status(200).send('ok'));
+
 // Serve the editor
 app.get('/', (req, res) => res.sendFile(path.join(ROOT, 'editor.html')));
 
